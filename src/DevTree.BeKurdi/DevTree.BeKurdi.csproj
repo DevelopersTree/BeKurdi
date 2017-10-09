@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.3</Version>
+    <Version>0.0.3.1</Version>
     <Authors>Muhammad Azeez</Authors>
     <Company>Developers Tree</Company>
     <Description>A .Net library to convert Kurdish text between different alphabets</Description>
@@ -11,6 +11,9 @@
     <PackageProjectUrl>https://github.com/DevelopersTree/BeKurdi</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DevelopersTree/BeKurdi</RepositoryUrl>
     <PackageTags>Kurdish, lingusitics, alphabet</PackageTags>
+    <AssemblyVersion>0.0.3.1</AssemblyVersion>
+    <FileVersion>0.0.3.1</FileVersion>
+    <PackageReleaseNotes>Added LamWithSmallV to StandardSoraniAlphabet</PackageReleaseNotes>
   </PropertyGroup>
   
 </Project>

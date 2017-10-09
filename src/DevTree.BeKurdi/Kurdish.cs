@@ -725,7 +725,7 @@ namespace DevTree.BeKurdi
         {
             Hamza,  Alef,   Beh,    Peh,    Teh,    Jeem,   Tcheh,  Hah,    Khah,   Dal,    Reh,    RehWithSmallV,
             Zain,   Jeh,    Seen,   Sheen,  Ain,    Ghain,  Feh,    Veh,    Qaf,    Kehef,  Gaf,    Lam,
-            Meem,   Noon,   Waw,    Oe,     Ae,     Heh,    Yeh,    YehWithSmallV
+            LamWithSmallV, Meem,   Noon,   Waw,    Oe,     Ae,     Heh,    Yeh,    YehWithSmallV
         };
 
         /// <summary>
