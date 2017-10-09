@@ -11,7 +11,7 @@ namespace DevTree.BeKurdi.Demo
     {
         static void Main(string[] args)
         {
-            // WriteCodeForCharacterSet(@"D:\NonStandard.txt", Kurdish.NonStandardSoraniAlphabet);
+            WriteCodeForCharacterSet(@"D:\Common.txt", Kurdish.CommonSymbols);
         }
 
         public static void WriteCodeForCharacterSet(string fileName, IReadOnlyList<char> characterSet)
@@ -31,7 +31,7 @@ namespace DevTree.BeKurdi.Demo
 
                 builder.Append($@"
         /// <summary>
-        /// <para>Non-Standard Kurdish character: <code>{character}</code> - <code>U+{characterCode}</code> </para>
+        /// <para>Common Symbols: <code>{character}</code> - <code>U+{characterCode}</code> </para>
         /// <para>Unicode Name: {unicodeCharacter.Name} </para>
         /// </summary>
         public const char {ProcessName(unicodeCharacter.Name)} = '\u{characterCode}';

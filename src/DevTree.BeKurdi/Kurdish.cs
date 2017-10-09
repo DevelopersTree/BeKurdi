@@ -6,7 +6,6 @@ namespace DevTree.BeKurdi
 {
     public static class Kurdish
     {
-
         #region Characters
         #region Standard Sorani
         /// <summary>
@@ -418,57 +417,57 @@ namespace DevTree.BeKurdi
         public const char ArabicLetterTah = '\u0637';
         #endregion // Non-Standard Sorani
 
-        #region Common Punctuation
+        #region Common Symbols
         /// <summary>
-        /// <para>Common punctuation: <code>.</code> - <code>U+002E</code> </para>
+        /// <para>Common symbol: <code>.</code> - <code>U+002E</code> </para>
         /// <para>Unicode Name: FULL STOP </para>
         /// </summary>
         public const char FullStop = '\u002E';
 
         /// <summary>
-        /// <para>Common punctuation: <code>:</code> - <code>U+003A</code> </para>
+        /// <para>Common symbol: <code>:</code> - <code>U+003A</code> </para>
         /// <para>Unicode Name: COLON </para>
         /// </summary>
         public const char Colon = '\u003A';
 
         /// <summary>
-        /// <para>Common punctuation: <code>(</code> - <code>U+0028</code> </para>
+        /// <para>Common symbol: <code>(</code> - <code>U+0028</code> </para>
         /// <para>Unicode Name: LEFT PARENTHESIS </para>
         /// </summary>
         public const char LeftParenthesis = '\u0028';
 
         /// <summary>
-        /// <para>Common punctuation: <code>)</code> - <code>U+0029</code> </para>
+        /// <para>Common symbol: <code>)</code> - <code>U+0029</code> </para>
         /// <para>Unicode Name: RIGHT PARENTHESIS </para>
         /// </summary>
         public const char RightParenthesis = '\u0029';
 
         /// <summary>
-        /// <para>Common punctuation: <code>!</code> - <code>U+0021</code> </para>
+        /// <para>Common symbol: <code>!</code> - <code>U+0021</code> </para>
         /// <para>Unicode Name: EXCLAMATION MARK </para>
         /// </summary>
         public const char ExclamationMark = '\u0021';
 
         /// <summary>
-        /// <para>Common punctuation: <code>/</code> - <code>U+002F</code> </para>
+        /// <para>Common symbol: <code>/</code> - <code>U+002F</code> </para>
         /// <para>Unicode Name: SOLIDUS </para>
         /// </summary>
         public const char Slash = '\u002F';
 
         /// <summary>
-        /// <para>Common punctuation: <code>\</code> - <code>U+005C</code> </para>
+        /// <para>Common symbol: <code>\</code> - <code>U+005C</code> </para>
         /// <para>Unicode Name: REVERSE SOLIDUS </para>
         /// </summary>
         public const char BackSlash = '\u005C';
 
         /// <summary>
-        /// <para>Common punctuation: <code>,</code> - <code>U+002C</code> </para>
+        /// <para>Common symbol: <code>,</code> - <code>U+002C</code> </para>
         /// <para>Unicode Name: COMMA </para>
         /// </summary>
         public const char Comma = '\u002C';
 
         /// <summary>
-        /// <para>Common punctuation: <code>-</code> - <code>U+002D</code> </para>
+        /// <para>Common symbol: <code>-</code> - <code>U+002D</code> </para>
         /// <para>Unicode Name: HYPHEN-MINUS </para>
         /// </summary>
         public const char Hyphen = '\u002D';
@@ -478,7 +477,181 @@ namespace DevTree.BeKurdi
         /// <para>Unicode Name: SPACE </para>
         /// </summary>
         public const char Space = '\u0020';
-        #endregion // Common Punctuation
+
+        /// <summary>
+        /// <para>Common Symbols: <code>^</code> - <code>U+005E</code> </para>
+        /// <para>Unicode Name: CIRCUMFLEX ACCENT </para>
+        /// </summary>
+        public const char CircumflexAccent = '\u005E';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>%</code> - <code>U+0025</code> </para>
+        /// <para>Unicode Name: PERCENT SIGN </para>
+        /// </summary>
+        public const char PercentSign = '\u0025';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>$</code> - <code>U+0024</code> </para>
+        /// <para>Unicode Name: DOLLAR SIGN </para>
+        /// </summary>
+        public const char DollarSign = '\u0024';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>#</code> - <code>U+0023</code> </para>
+        /// <para>Unicode Name: NUMBER SIGN </para>
+        /// </summary>
+        public const char NumberSign = '\u0023';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>@</code> - <code>U+0040</code> </para>
+        /// <para>Unicode Name: COMMERCIAL AT </para>
+        /// </summary>
+        public const char CommercialAt = '\u0040';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>&</code> - <code>U+0026</code> </para>
+        /// <para>Unicode Name: AMPERSAND </para>
+        /// </summary>
+        public const char Ampersand = '\u0026';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>*</code> - <code>U+002A</code> </para>
+        /// <para>Unicode Name: ASTERISK </para>
+        /// </summary>
+        public const char Asterisk = '\u002A';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>_</code> - <code>U+005F</code> </para>
+        /// <para>Unicode Name: LOW LINE </para>
+        /// </summary>
+        public const char LowLine = '\u005F';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>+</code> - <code>U+002B</code> </para>
+        /// <para>Unicode Name: PLUS SIGN </para>
+        /// </summary>
+        public const char PlusSign = '\u002B';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>[</code> - <code>U+005B</code> </para>
+        /// <para>Unicode Name: LEFT SQUARE BRACKET </para>
+        /// </summary>
+        public const char LeftSquareBracket = '\u005B';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>]</code> - <code>U+005D</code> </para>
+        /// <para>Unicode Name: RIGHT SQUARE BRACKET </para>
+        /// </summary>
+        public const char RightSquareBracket = '\u005D';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>}</code> - <code>U+007D</code> </para>
+        /// <para>Unicode Name: RIGHT CURLY BRACKET </para>
+        /// </summary>
+        public const char RightCurlyBracket = '\u007D';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>{</code> - <code>U+007B</code> </para>
+        /// <para>Unicode Name: LEFT CURLY BRACKET </para>
+        /// </summary>
+        public const char LeftCurlyBracket = '\u007B';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>’</code> - <code>U+2019</code> </para>
+        /// <para>Unicode Name: RIGHT SINGLE QUOTATION MARK </para>
+        /// </summary>
+        public const char RightSingleQuotationMark = '\u2019';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>‘</code> - <code>U+2018</code> </para>
+        /// <para>Unicode Name: LEFT SINGLE QUOTATION MARK </para>
+        /// </summary>
+        public const char LeftSingleQuotationMark = '\u2018';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>~</code> - <code>U+007E</code> </para>
+        /// <para>Unicode Name: TILDE </para>
+        /// </summary>
+        public const char Tilde = '\u007E';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>|</code> - <code>U+007C</code> </para>
+        /// <para>Unicode Name: VERTICAL LINE </para>
+        /// </summary>
+        public const char VerticalLine = '\u007C';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>=</code> - <code>U+003D</code> </para>
+        /// <para>Unicode Name: EQUALS SIGN </para>
+        /// </summary>
+        public const char EqualsSign = '\u003D';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>;</code> - <code>U+003B</code> </para>
+        /// <para>Unicode Name: SEMICOLON </para>
+        /// </summary>
+        public const char Semicolon = '\u003B';
+
+        /// <summary>
+        /// <para>Common Symbols: <code><</code> - <code>U+003C</code> </para>
+        /// <para>Unicode Name: LESS-THAN SIGN </para>
+        /// </summary>
+        public const char LessThanSign = '\u003C';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>></code> - <code>U+003E</code> </para>
+        /// <para>Unicode Name: GREATER-THAN SIGN </para>
+        /// </summary>
+        public const char GreaterThanSign = '\u003E';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>§</code> - <code>U+00A7</code> </para>
+        /// <para>Unicode Name: SECTION SIGN </para>
+        /// </summary>
+        public const char SectionSign = '\u00A7';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>¨</code> - <code>U+00A8</code> </para>
+        /// <para>Unicode Name: DIAERESIS </para>
+        /// </summary>
+        public const char Diaeresis = '\u00A8';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>©</code> - <code>U+00A9</code> </para>
+        /// <para>Unicode Name: COPYRIGHT SIGN </para>
+        /// </summary>
+        public const char CopyrightSign = '\u00A9';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>`</code> - <code>U+0060</code> </para>
+        /// <para>Unicode Name: GRAVE ACCENT </para>
+        /// </summary>
+        public const char GraveAccent = '\u0060';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>®</code> - <code>U+00AE</code> </para>
+        /// <para>Unicode Name: REGISTERED SIGN </para>
+        /// </summary>
+        public const char RegisteredSign = '\u00AE';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>°</code> - <code>U+00B0</code> </para>
+        /// <para>Unicode Name: DEGREE SIGN </para>
+        /// </summary>
+        public const char DegreeSign = '\u00B0';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>·</code> - <code>U+00B7</code> </para>
+        /// <para>Unicode Name: MIDDLE DOT </para>
+        /// </summary>
+        public const char MiddleDot = '\u00B7';
+
+        /// <summary>
+        /// <para>Common Symbols: <code>´</code> - <code>U+00B4</code> </para>
+        /// <para>Unicode Name: ACUTE ACCENT </para>
+        /// </summary>
+        public const char AcuteAccent = '\u00B4';
+        #endregion // Common Symbols
 
         #region Latin Numbers
         /// <summary>
@@ -545,30 +718,48 @@ namespace DevTree.BeKurdi
 
         #region Character Sets
         /// <summary>
-        /// List of standard unicode characters for Kurdish language when written in Sorani alphabet as accepted by the Kurdish Academy.
+        /// Gets the list of standard unicode characters for Kurdish language when written in Sorani alphabet as accepted by the Kurdish Academy.
         /// More Information: http://unicode.ekrg.org/ku_unicodes.html
         /// </summary>
-        public static IReadOnlyList<char> StandardSoraniAlphabet => new List<char>
+        public static IReadOnlyList<char> SoraniAlphabet => new List<char>
         {
             Hamza,  Alef,   Beh,    Peh,    Teh,    Jeem,   Tcheh,  Hah,    Khah,   Dal,    Reh,    RehWithSmallV,
             Zain,   Jeh,    Seen,   Sheen,  Ain,    Ghain,  Feh,    Veh,    Qaf,    Kehef,  Gaf,    Lam,
             Meem,   Noon,   Waw,    Oe,     Ae,     Heh,    Yeh,    YehWithSmallV
         };
 
-        public static IReadOnlyList<char> StandardSoraniNumbers => new List<char>
+        /// <summary>
+        /// Gets the list of numbers used in standard Sorani alphabet.
+        /// More Information: http://unicode.ekrg.org/ku_unicodes.html
+        /// </summary>
+        public static IReadOnlyList<char> SoraniNumbers => new List<char>
         {
             SoraniZero, SoraniOne, SoraniTwo,   SoraniThree, SoraniFour,
             SoraniFive, SoraniSix, SoraniSeven, SoraniEight, SoraniNine
         };
 
-        public static IReadOnlyList<char> StandardSoraniPunctuation => new List<char>
+        /// <summary>
+        /// Gets the list of punctuation characters used in the standard Sorani alphabet.
+        /// </summary>
+        public static IReadOnlyList<char> SoraniPunctuation => new List<char>
         {
             FullStop, Colon, SoraniComma, SoraniDash, RightParenthesis, LeftParenthesis, SoraniRightQuotationMark, SoraniLeftQuotationMark,
-            ExclamationMark, SoraniQuestionMark, SoraniSemicolon, Slash, BackSlash, Comma, Hyphen
+            ExclamationMark, SoraniQuestionMark, SoraniSemicolon, Slash, BackSlash, Comma, Hyphen, Space
         };
 
         /// <summary>
-        /// List of non-standard unicode characters sometimes used to write Kurdish in Sorani alphabet.
+        /// Gets the list of symbols that exist in multiple alphabets.
+        /// </summary>
+        public static IReadOnlyList<char> CommonSymbols => new List<char>
+        {
+            CircumflexAccent, PercentSign, DollarSign, NumberSign, CommercialAt, Ampersand, Asterisk, RightParenthesis,
+            LeftParenthesis, LowLine, PlusSign, RightSquareBracket, LeftSquareBracket, RightCurlyBracket, LeftCurlyBracket,
+            LeftSingleQuotationMark, RightSingleQuotationMark, Tilde, VerticalLine, EqualsSign, Comma, Semicolon,
+            GreaterThanSign, LessThanSign, SectionSign, Diaeresis, CopyrightSign, RegisteredSign, DegreeSign, MiddleDot, AcuteAccent
+        };
+
+        /// <summary>
+        /// Gets the list of non-standard unicode characters sometimes used to write Kurdish in Sorani alphabet.
         /// </summary>
         public static IReadOnlyList<char> NonStandardSoraniAlphabet => new List<char>
         {
@@ -579,6 +770,9 @@ namespace DevTree.BeKurdi
             ArabicLetterKaf
         };
 
+        /// <summary>
+        /// Gets the list of numbers used in the Latin alphabet.
+        /// </summary>
         public static IReadOnlyList<char> LatinNumbers => new List<char>
         {
             LatinZero, LatinOne, LatinTwo,   LatinThree, LatinFour,
