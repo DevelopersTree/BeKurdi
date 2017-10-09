@@ -1,4 +1,4 @@
-# Be Kurdi (بە کوردی)
+# Be Kurdi (بە کوردی) [![Build Status](https://travis-ci.org/DevelopersTree/BeKurdi.svg?branch=master)](https://travis-ci.org/DevelopersTree/BeKurdi) [![NuGet](https://img.shields.io/nuget/v/DevTree.BeKurdi.svg)](https://www.nuget.org/packages/DevTree.BeKurdi/)
 Kurdish language is being written in three main alphabets: [Sorani Alphabet, Latin Alphabet And Crylic Alphabet](https://en.wikipedia.org/wiki/Kurdish_alphabets). This library provides a simple way to convert bodies of text between the different alphabets.
 
 ## State of the project

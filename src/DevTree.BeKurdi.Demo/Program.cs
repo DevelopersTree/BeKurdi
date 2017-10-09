@@ -11,7 +11,7 @@ namespace DevTree.BeKurdi.Demo
     {
         static void Main(string[] args)
         {
-            WriteCodeForCharacterSet(@"D:\Common.txt", Kurdish.CommonSymbols);
+            // WriteCodeForCharacterSet(@"D:\Common.txt", Kurdish.CommonSymbols);
         }
 
         public static void WriteCodeForCharacterSet(string fileName, IReadOnlyList<char> characterSet)
