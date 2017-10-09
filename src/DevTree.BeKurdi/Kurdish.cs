@@ -8,7 +8,6 @@ namespace DevTree.BeKurdi
     {
 
         #region Characters
-
         #region Standard Sorani
         /// <summary>
         /// <para>Standard Kurdish character: <code>ئ</code> - <code>U+0626</code> </para>
@@ -207,10 +206,9 @@ namespace DevTree.BeKurdi
         /// <para>Unicode Name: ARABIC LETTER YEH WITH SMALL V </para>
         /// </summary>
         public const char YehWithSmallV = '\u06CE';
-        #endregion
+        #endregion // Standard Sorani
 
         #region Non-Standard Sorani
-
         /// <summary>
         /// <para>Non-Standard Kurdish character: <code>َ</code> - <code>U+064E</code> </para>
         /// <para>Unicode Name: ARABIC FATHA </para>
@@ -318,16 +316,14 @@ namespace DevTree.BeKurdi
         /// <para>Unicode Name: ARABIC LETTER TAH </para>
         /// </summary>
         public const char ArabicLetterTah = '\u0637';
-
-        #endregion
+        #endregion // Non-Standard Sorani
 
         /// <summary>
         /// <para>Standard Kurdish character: <code> </code> - <code>U+0020</code> </para>
         /// <para>Unicode Name: SPACE </para>
         /// </summary>
         public const char Space = '\u0020';
-
-        #endregion
+        #endregion // Characters
 
         #region Character Sets
         /// <summary>
@@ -352,6 +348,6 @@ namespace DevTree.BeKurdi
             ArabicLetterThal,   ZeroWidthNonJoiner,                 ArabicLetterTehMarbuta,             ArabicLetterSad,
             ArabicLetterKaf
         };
-        #endregion
+        #endregion // Character Sets
     }
 }
