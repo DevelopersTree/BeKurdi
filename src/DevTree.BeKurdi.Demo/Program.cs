@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace DevTree.BeKurdi.Demo
 {
@@ -6,7 +11,40 @@ namespace DevTree.BeKurdi.Demo
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            // WriteCodeForCharacterSet(@"D:\NonStandard.txt", Kurdish.NonStandardSoraniAlphabet);
+        }
+
+        public static void WriteCodeForCharacterSet(string fileName, IReadOnlyList<char> characterSet)
+        {
+            var unicodeData = File.ReadAllLines("UnicodeData.txt").Select(l =>
+            {
+                var parts = l.Split(';');
+
+                return new { Code = parts[0], Name = parts[1] };
+            }).ToDictionary(c => c.Code);
+
+            var builder = new StringBuilder();
+            foreach (var character in characterSet)
+            {
+                var characterCode = ((int)character).ToString("X4");
+                var unicodeCharacter = unicodeData[characterCode];
+
+                builder.Append($@"
+        /// <summary>
+        /// <para>Non-Standard Kurdish character: <code>{character}</code> - <code>U+{characterCode}</code> </para>
+        /// <para>Unicode Name: {unicodeCharacter.Name} </para>
+        /// </summary>
+        public static char {ProcessName(unicodeCharacter.Name)} = '\u{characterCode}';
+");
+            }
+
+            File.WriteAllText(fileName, builder.ToString());
+        }
+
+        private static TextInfo textInfo = new CultureInfo("en-US").TextInfo;
+        private static string ProcessName(string UnicodeName)
+        {
+            return textInfo.ToTitleCase(UnicodeName.ToLower()).Replace(" ", "");
         }
     }
 }

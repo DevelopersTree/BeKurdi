@@ -9,4 +9,10 @@
     <ProjectReference Include="..\DevTree.BeKurdi\DevTree.BeKurdi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="UnicodeData.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
