@@ -34,7 +34,7 @@ namespace DevTree.BeKurdi.Demo
         /// <para>Non-Standard Kurdish character: <code>{character}</code> - <code>U+{characterCode}</code> </para>
         /// <para>Unicode Name: {unicodeCharacter.Name} </para>
         /// </summary>
-        public static char {ProcessName(unicodeCharacter.Name)} = '\u{characterCode}';
+        public const char {ProcessName(unicodeCharacter.Name)} = '\u{characterCode}';
 ");
             }
 
