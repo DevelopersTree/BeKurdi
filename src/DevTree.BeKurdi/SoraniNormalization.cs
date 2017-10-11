@@ -44,7 +44,7 @@ namespace DevTree.BeKurdi
 
             while (endIndex < builder.Length)
             {
-                while (endIndex < MaxWordLength && endIndex < builder.Length)
+                while ((endIndex - startIndex) < MaxWordLength && endIndex < builder.Length)
                 {
                     if (symbols.Contains(builder[endIndex]))
                     {
