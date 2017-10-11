@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevTree.BeKurdi", "src\DevT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevTree.BeKurdi.Demo", "src\DevTree.BeKurdi.Demo\DevTree.BeKurdi.Demo.csproj", "{76ACD00B-B9AE-4BAB-8508-D24D88ABA1E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTree.BeKurdi.Tests", "tests\DevTree.BeKurdi.Tests\DevTree.BeKurdi.Tests.csproj", "{293D21E7-5115-4AF4-89F0-CCF540C414C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{76ACD00B-B9AE-4BAB-8508-D24D88ABA1E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76ACD00B-B9AE-4BAB-8508-D24D88ABA1E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76ACD00B-B9AE-4BAB-8508-D24D88ABA1E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{293D21E7-5115-4AF4-89F0-CCF540C414C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{293D21E7-5115-4AF4-89F0-CCF540C414C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{293D21E7-5115-4AF4-89F0-CCF540C414C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{293D21E7-5115-4AF4-89F0-CCF540C414C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +38,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{02E610BF-B851-469D-AEC5-8B013AB69D65} = {428342FE-C0CC-469A-8DB0-FDDF78D6FF7D}
 		{76ACD00B-B9AE-4BAB-8508-D24D88ABA1E1} = {428342FE-C0CC-469A-8DB0-FDDF78D6FF7D}
+		{293D21E7-5115-4AF4-89F0-CCF540C414C5} = {315E288B-0EB8-44A1-9B43-CF791311F746}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C1ED7397-D5CD-4715-BD8B-AE3D8B6A0C67}

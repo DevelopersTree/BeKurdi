@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -11,7 +12,21 @@ namespace DevTree.BeKurdi.Demo
     {
         static void Main(string[] args)
         {
-            // WriteCodeForCharacterSet(@"D:\Common.txt", Kurdish.CommonSymbols);
+            Console.OutputEncoding = System.Text.Encoding.Unicode;
+
+            Console.WriteLine("Creating String...");
+            var text = @"ئةوديوى رووداوةكان لةخةلك دةشارنةوة و جاوبةستى زؤر خةلكيان كردووة (لةلايةك ئيتفاقى زيَرةوةو لة سةرةوةش كوردايةتى فرؤشتنةوة بة خةلكى بئ ئاكا لة سياسةت) ئةكينا برواناكةم هيندة لةوة جاكتر هةبئ سةربةخؤبين بةلام بة راستةقينة نةك دوو فاقى";
+
+            Console.WriteLine($"String Created... {text.Length:n0} Characters.. {Encoding.UTF8.GetByteCount(text):n0} bytes");
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+            var normalized = SoraniNormalization.Normalize(text);
+            stopWatch.Stop();
+            Console.WriteLine($"Elapsed: {stopWatch.ElapsedMilliseconds:n0}");
+            Console.WriteLine(normalized);
+            File.WriteAllText(@"D:\test.txt", normalized);
+
+            Console.ReadKey();
         }
 
         public static void WriteCodeForCharacterSet(string fileName, IReadOnlyList<char> characterSet)
