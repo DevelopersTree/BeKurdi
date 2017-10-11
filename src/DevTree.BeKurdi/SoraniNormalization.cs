@@ -30,7 +30,8 @@ namespace DevTree.BeKurdi
             { Yeh,                              NormalizeYe                         },
             { Hamza,                            NormalizeHamza                      },
             { Waw,                              NormalizeWaw                        },
-            { ZeroWidthNonJoiner,               NormalizeHehWithZeroWidthNonJoiner  }
+            { ZeroWidthNonJoiner,               NormalizeHehWithZeroWidthNonJoiner  },
+            { Alef,                             NormalizeAlef                       },
         };
 
         public static string Normalize(this string text)
@@ -170,6 +171,15 @@ namespace DevTree.BeKurdi
             }
 
             return change;
+        }
+
+        private static int NormalizeAlef(StringBuilder builder, int startIndex, int limit)
+        {
+            if (builder.Length == 0 || builder[0] != Alef)
+                return 0;
+
+            builder.Insert(0, Hamza);
+            return 1;
         }
 
         private static int ReplaceChars(StringBuilder builder, int startIndex, int endIndex, char find, char replace)

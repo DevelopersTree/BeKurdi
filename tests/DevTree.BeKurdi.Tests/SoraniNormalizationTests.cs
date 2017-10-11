@@ -69,7 +69,8 @@ namespace DevTree.BeKurdi.Tests
         private void AssertSimpleSoraniNormalizer(string text, char find, char replace)
         {
             var normalized = SoraniNormalization.Normalize(text);
-            Assert.True(normalized == text.Replace(find, replace));
+            Assert.True(normalized.Contains(replace));
+            Assert.False(normalized.Contains(find));
         }
 
         [Theory]
@@ -197,6 +198,16 @@ namespace DevTree.BeKurdi.Tests
 
             Assert.True(timer.ElapsedMilliseconds < 1000);
             Assert.False(normalized.Any(c => troublesomeChars.Contains(c)));
+        }
+
+        [Fact]  // ازاد => ئازاد
+        public void Normalize_Aelf_At_The_Begenning_Of_A_Word()
+        {
+            var text = $"{Alef}{Zain}{Alef}{Dal}";  // ازاد
+            var normalized = SoraniNormalization.Normalize(text);
+
+            Assert.True(normalized[0] == Hamza);
+            Assert.True(normalized[1] == Alef);
         }
 
     }
