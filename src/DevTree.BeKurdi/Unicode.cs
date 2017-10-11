@@ -723,7 +723,7 @@ namespace DevTree.BeKurdi
             LamWithSmallV,  Meem,   Noon,   Waw,    Oe,     Ae,     Heh,    Yeh,    YehWithSmallV
         };
 
-        public static IReadOnlyList<char> SoraniAlphabetVowls => new List<char>
+        public static IReadOnlyList<char> SoraniAlphabetVowels => new List<char>
         {
             Alef, Waw, Oe, Ae, Yeh, YehWithSmallV
         };
@@ -769,13 +769,13 @@ namespace DevTree.BeKurdi
             ArabicLetterKaf,    ZeroWidthNonJoiner,                 ArabicLetterTehMarbuta,             ArabicLetterSad,
         };
 
-        public static IReadOnlyList<char> NonStandardSoraniAlphabetVowls => new List<char>
+        public static IReadOnlyList<char> NonStandardSoraniAlphabetVowels => new List<char>
         {
             ArabicLetterAlefWithHamzaAbove, ArabicLetterAlefWithMaddaAbove, ArabicLetterYeh,        ArabicLetterWawWithHamzaAbove,
             ArabicLetterWawWithHamzaAbove,  ArabicLetterAlefMaksura,        ArabicLetterTehMarbuta,  
         };
 
-        private static IReadOnlyList<char> _allSoraniAlphabetVowls = SoraniAlphabetVowls.Union(NonStandardSoraniAlphabetVowls).ToList();
+        private static IReadOnlyList<char> _allSoraniAlphabetVowls = SoraniAlphabetVowels.Union(NonStandardSoraniAlphabetVowels).ToList();
         public static IReadOnlyList<char> AllSoraniAlphabetVowls => _allSoraniAlphabetVowls;
 
         /// <summary>
