@@ -346,12 +346,6 @@ namespace DevTree.BeKurdi
         public const char ArabicLetterZah = '\u0638';
 
         /// <summary>
-        /// <para>Non-Standard Sorani letter: <code>ً</code> - <code>U+064B</code> </para>
-        /// <para>Unicode Name: ARABIC FATHATAN </para>
-        /// </summary>
-        public const char ArabicFathatan = '\u064B';
-
-        /// <summary>
         /// <para>Non-Standard Sorani letter: <code>ي</code> - <code>U+064A</code> </para>
         /// <para>Unicode Name: ARABIC LETTER YEH </para>
         /// </summary>
@@ -769,11 +763,10 @@ namespace DevTree.BeKurdi
         /// </summary>
         public static IReadOnlyList<char> NonStandardSoraniAlphabet => new List<char>
         {
-            ArabicFatha,        ArabicLetterAlefWithHamzaAbove,     ArabicLetterAlefWithMaddaAbove,     ArabicFathatan,
-            ArabicLetterDad,    ArabicLetterTheh,                   ArabicLetterTah,                    ArabicLetterYeh,
-            ArabicKasra,        ArabicLetterWawWithHamzaAbove,      ArabicLetterHehDoachashmee,         ArabicLetterAlefMaksura,
-            ArabicLetterThal,   ZeroWidthNonJoiner,                 ArabicLetterTehMarbuta,             ArabicLetterSad,
-            ArabicLetterKaf
+            ArabicFatha,        ArabicLetterAlefWithHamzaAbove,     ArabicLetterAlefWithMaddaAbove,     ArabicLetterDad,
+            ArabicLetterTheh,   ArabicLetterTah,                    ArabicLetterYeh,                    ArabicKasra,
+            ArabicLetterThal,   ArabicLetterWawWithHamzaAbove,      ArabicLetterHehDoachashmee,         ArabicLetterAlefMaksura,
+            ArabicLetterKaf,    ZeroWidthNonJoiner,                 ArabicLetterTehMarbuta,             ArabicLetterSad,
         };
 
         public static IReadOnlyList<char> NonStandardSoraniAlphabetVowls => new List<char>
