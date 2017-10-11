@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DevTree.BeKurdi
 {
-    public static class Kurdish
+    public static class Unicode
     {
         #region Characters
         #region Standard Sorani
@@ -138,7 +139,7 @@ namespace DevTree.BeKurdi
         /// <para>Standard Sorani letter: <code>ک</code> - <code>U+06A9</code> </para>
         /// <para>Unicode Name: ARABIC LETTER KEHEH </para>
         /// </summary>
-        public const char Kehef = '\u06A9';
+        public const char Kaf = '\u06A9';
 
         /// <summary>
         /// <para>Standard Sorani letter: <code>گ</code> - <code>U+06AF</code> </para>
@@ -723,9 +724,14 @@ namespace DevTree.BeKurdi
         /// </summary>
         public static IReadOnlyList<char> SoraniAlphabet => new List<char>
         {
-            Hamza,  Alef,   Beh,    Peh,    Teh,    Jeem,   Tcheh,  Hah,    Khah,   Dal,    Reh,    RehWithSmallV,
-            Zain,   Jeh,    Seen,   Sheen,  Ain,    Ghain,  Feh,    Veh,    Qaf,    Kehef,  Gaf,    Lam,
-            LamWithSmallV, Meem,   Noon,   Waw,    Oe,     Ae,     Heh,    Yeh,    YehWithSmallV
+            Hamza,          Alef,   Beh,    Peh,    Teh,    Jeem,   Tcheh,  Hah,    Khah,   Dal,    Reh,    RehWithSmallV,
+            Zain,           Jeh,    Seen,   Sheen,  Ain,    Ghain,  Feh,    Veh,    Qaf,    Kaf,  Gaf,    Lam,
+            LamWithSmallV,  Meem,   Noon,   Waw,    Oe,     Ae,     Heh,    Yeh,    YehWithSmallV
+        };
+
+        public static IReadOnlyList<char> SoraniAlphabetVowls => new List<char>
+        {
+            Alef, Waw, Oe, Ae, Yeh, YehWithSmallV
         };
 
         /// <summary>
@@ -769,6 +775,15 @@ namespace DevTree.BeKurdi
             ArabicLetterThal,   ZeroWidthNonJoiner,                 ArabicLetterTehMarbuta,             ArabicLetterSad,
             ArabicLetterKaf
         };
+
+        public static IReadOnlyList<char> NonStandardSoraniAlphabetVowls => new List<char>
+        {
+            ArabicLetterAlefWithHamzaAbove, ArabicLetterAlefWithMaddaAbove, ArabicLetterYeh,        ArabicLetterWawWithHamzaAbove,
+            ArabicLetterWawWithHamzaAbove,  ArabicLetterAlefMaksura,        ArabicLetterTehMarbuta,  
+        };
+
+        private static IReadOnlyList<char> _allSoraniAlphabetVowls = SoraniAlphabetVowls.Union(NonStandardSoraniAlphabetVowls).ToList();
+        public static IReadOnlyList<char> AllSoraniAlphabetVowls => _allSoraniAlphabetVowls;
 
         /// <summary>
         /// Gets the list of numbers used in the Latin alphabet.
