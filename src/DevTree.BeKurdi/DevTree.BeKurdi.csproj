@@ -11,6 +11,8 @@
     <PackageProjectUrl>https://github.com/DevelopersTree/BeKurdi</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DevelopersTree/BeKurdi</RepositoryUrl>
     <PackageTags>Kurdish, lingusitics, alphabet</PackageTags>
+    <PackageReleaseNotes>+ Added Sorani Normalization
+ + Some breaking changes to Unicode class</PackageReleaseNotes>
   </PropertyGroup>
   
 </Project>
