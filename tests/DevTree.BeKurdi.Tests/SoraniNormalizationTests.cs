@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Xunit;
@@ -68,7 +69,8 @@ namespace DevTree.BeKurdi.Tests
         private void AssertSimpleSoraniNormalizer(string text, char find, char replace)
         {
             var normalized = SoraniNormalization.Normalize(text);
-            Assert.True(normalized == text.Replace(find, replace));
+            Assert.True(normalized.Contains(replace));
+            Assert.False(normalized.Contains(find));
         }
 
         [Theory]
@@ -172,5 +174,40 @@ namespace DevTree.BeKurdi.Tests
             Assert.True(normalized[1] == YehWithSmallV);
         }
 
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void Normalize_A_Very_Long_Text(bool includeSpace)
+        {
+            var timer = new Stopwatch();
+            var random = new Random();
+
+            var space = includeSpace ? new char[] { Space } : new char[] { };
+            var ignoredChars = new char[] { ArabicLetterSad, ArabicKasra, ArabicFatha, ZeroWidthNonJoiner };
+            var troublesomeChars = NonStandardSoraniAlphabet.Except(ignoredChars);
+            var charSet = troublesomeChars.Union(SoraniAlphabet)
+                                          .Union(space)
+                                          .ToArray();
+
+            var text = new string(Enumerable.Repeat(charSet, 10000)
+                                            .Select(set => set[random.Next(charSet.Length)]).ToArray());
+
+            timer.Start();
+            var normalized = SoraniNormalization.Normalize(text);
+            timer.Stop();
+
+            Assert.True(timer.ElapsedMilliseconds < 1000);
+            Assert.False(normalized.Any(c => troublesomeChars.Contains(c)));
+        }
+
+        [Fact]  // ازاد => ئازاد
+        public void Normalize_Aelf_At_The_Begenning_Of_A_Word()
+        {
+            var text = $"{Alef}{Zain}{Alef}{Dal}";  // ازاد
+            var normalized = SoraniNormalization.Normalize(text);
+
+            Assert.True(normalized[0] == Hamza);
+            Assert.True(normalized[1] == Alef);
+        }
     }
 }

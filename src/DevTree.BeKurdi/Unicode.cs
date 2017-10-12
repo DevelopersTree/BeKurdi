@@ -346,12 +346,6 @@ namespace DevTree.BeKurdi
         public const char ArabicLetterZah = '\u0638';
 
         /// <summary>
-        /// <para>Non-Standard Sorani letter: <code>ً</code> - <code>U+064B</code> </para>
-        /// <para>Unicode Name: ARABIC FATHATAN </para>
-        /// </summary>
-        public const char ArabicFathatan = '\u064B';
-
-        /// <summary>
         /// <para>Non-Standard Sorani letter: <code>ي</code> - <code>U+064A</code> </para>
         /// <para>Unicode Name: ARABIC LETTER YEH </para>
         /// </summary>
@@ -715,6 +709,15 @@ namespace DevTree.BeKurdi
         /// </summary>
         public const char LatinNine = '\u0039';
         #endregion // Latin Numbers
+
+        #region Latin Punctuation
+        /// <summary>
+        /// <para>Latin Punctuation: <code>?</code> - <code>U+003F</code> </para>
+        /// <para>Unicode Name: QUESTION MARK </para>
+        /// </summary>
+        public const char LatinQuestionMark = '\u003F';
+        #endregion
+
         #endregion // Characters
 
         #region Character Sets
@@ -729,7 +732,7 @@ namespace DevTree.BeKurdi
             LamWithSmallV,  Meem,   Noon,   Waw,    Oe,     Ae,     Heh,    Yeh,    YehWithSmallV
         };
 
-        public static IReadOnlyList<char> SoraniAlphabetVowls => new List<char>
+        public static IReadOnlyList<char> SoraniAlphabetVowels => new List<char>
         {
             Alef, Waw, Oe, Ae, Yeh, YehWithSmallV
         };
@@ -769,20 +772,19 @@ namespace DevTree.BeKurdi
         /// </summary>
         public static IReadOnlyList<char> NonStandardSoraniAlphabet => new List<char>
         {
-            ArabicFatha,        ArabicLetterAlefWithHamzaAbove,     ArabicLetterAlefWithMaddaAbove,     ArabicFathatan,
-            ArabicLetterDad,    ArabicLetterTheh,                   ArabicLetterTah,                    ArabicLetterYeh,
-            ArabicKasra,        ArabicLetterWawWithHamzaAbove,      ArabicLetterHehDoachashmee,         ArabicLetterAlefMaksura,
-            ArabicLetterThal,   ZeroWidthNonJoiner,                 ArabicLetterTehMarbuta,             ArabicLetterSad,
-            ArabicLetterKaf
+            ArabicFatha,        ArabicLetterAlefWithHamzaAbove,     ArabicLetterAlefWithMaddaAbove,     ArabicLetterDad,
+            ArabicLetterTheh,   ArabicLetterTah,                    ArabicLetterYeh,                    ArabicKasra,
+            ArabicLetterThal,   ArabicLetterWawWithHamzaAbove,      ArabicLetterHehDoachashmee,         ArabicLetterAlefMaksura,
+            ArabicLetterKaf,    ZeroWidthNonJoiner,                 ArabicLetterTehMarbuta,             ArabicLetterSad,
         };
 
-        public static IReadOnlyList<char> NonStandardSoraniAlphabetVowls => new List<char>
+        public static IReadOnlyList<char> NonStandardSoraniAlphabetVowels => new List<char>
         {
             ArabicLetterAlefWithHamzaAbove, ArabicLetterAlefWithMaddaAbove, ArabicLetterYeh,        ArabicLetterWawWithHamzaAbove,
-            ArabicLetterWawWithHamzaAbove,  ArabicLetterAlefMaksura,        ArabicLetterTehMarbuta,  
+            ArabicLetterWawWithHamzaAbove,  ArabicLetterAlefMaksura,        ArabicLetterTehMarbuta,
         };
 
-        private static IReadOnlyList<char> _allSoraniAlphabetVowls = SoraniAlphabetVowls.Union(NonStandardSoraniAlphabetVowls).ToList();
+        private static IReadOnlyList<char> _allSoraniAlphabetVowls = SoraniAlphabetVowels.Union(NonStandardSoraniAlphabetVowels).ToList();
         public static IReadOnlyList<char> AllSoraniAlphabetVowls => _allSoraniAlphabetVowls;
 
         /// <summary>

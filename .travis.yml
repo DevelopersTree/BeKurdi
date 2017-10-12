@@ -1,7 +1,7 @@
 language: csharp
 solution: DevTree.BeKurdi.sln
 mono: none
-dotnet: 2.0.0
+dotnet: 1.1.0
 dist: trusty
 branches:
   only:
@@ -10,4 +10,11 @@ branches:
 script:
  - dotnet restore
  - dotnet build -c Release
- - dotnet nuget push ./src/DevTree.BeKurdi/bin/Release/*.nupkg -s ${NUGET_SOURCE} -k ${NUGET_API_KEY}
+ - dotnet test ./tests/DevTree.BeKurdi.Tests/DevTree.BeKurdi.Tests.csproj
+ 
+deploy:
+ skip_cleanup: true
+ script:
+  - dotnet nuget push ./src/DevTree.BeKurdi/bin/Release/*.nupkg -s ${NUGET_SOURCE} -k ${NUGET_API_KEY}
+ on:
+   branch: master
