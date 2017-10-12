@@ -7,4 +7,11 @@ dist: trusty
 script:
  - dotnet restore
  - dotnet build -c Release
- - dotnet nuget push ./src/DevTree.BeKurdi/bin/Release/*.nupkg -s ${NUGET_SOURCE} -k ${NUGET_API_KEY}
+ - dotnet test .\tests\DevTree.BeKurdi.Tests\
+ 
+deploy:
+ skip_cleanup: true
+ script:
+  - dotnet nuget push ./src/DevTree.BeKurdi/bin/Release/*.nupkg -s ${NUGET_SOURCE} -k ${NUGET_API_KEY}
+ on:
+   branch: master
