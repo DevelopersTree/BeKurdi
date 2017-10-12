@@ -18,7 +18,7 @@ namespace DevTree.BeKurdi.Tests
             var text = new string(chars);
             var normalized = SoraniNormalization.Normalize(text);
 
-            Assert.True(normalized[0] == RehWithSmallV);
+            Assert.Equal(RehWithSmallV, normalized[0]);
         }
 
         [Theory]
@@ -29,7 +29,7 @@ namespace DevTree.BeKurdi.Tests
             var text = new string(chars);
             var normalized = SoraniNormalization.Normalize(text);
 
-            Assert.True(normalized == text);
+            Assert.Equal(text, normalized);
         }
 
         [Theory]
@@ -113,7 +113,7 @@ namespace DevTree.BeKurdi.Tests
         [InlineData(Reh, ArabicKasra)]                          // رِ => ڕ
         [InlineData(Beh, Reh, ArabicKasra)]                     // برِ => بڕ
         [InlineData(Kaf, Reh, ArabicKasra, Yeh, Noon)]          // کرِین => کڕین
-        public void Normalize_Reh_With_SmallV(params char[] chars)
+        public void Should_Add_Small_V_To_Reh_With_Fatha(params char[] chars)
         {
             var text = new string(chars);
             var normalized = SoraniNormalization.Normalize(text);
@@ -124,19 +124,39 @@ namespace DevTree.BeKurdi.Tests
         }
 
         [Theory]
-        [InlineData(Heh, ZeroWidthNonJoiner)]
-        [InlineData(Space, Heh, ZeroWidthNonJoiner)]
-        [InlineData(Heh, ZeroWidthNonJoiner, Space)]
-        [InlineData(Beh, Heh, ZeroWidthNonJoiner)]                  // بە
-        [InlineData(Dal, Heh, ZeroWidthNonJoiner, Seen, Teh)]       // دەست
-        public void Normalize_Heh_With_Zer_Width_Non_Joiner(params char[] chars)
+        [InlineData(Kaf, Alef, Reh)]                                 // کار
+        [InlineData(Teh, Reh, Yeh, Sheen)]                           // تریش
+        public void Shouldnt_Add_Small_V_To_Reh_Without_Fatha(params char[] chars)
         {
             var text = new string(chars);
             var normalized = SoraniNormalization.Normalize(text);
 
-            Assert.True(normalized.Contains(Ae));
-            Assert.False(normalized.Contains(Heh));
-            Assert.False(normalized.Contains(ZeroWidthNonJoiner));
+            Assert.True(normalized.Contains(Reh));
+            Assert.False(normalized.Contains(RehWithSmallV));
+        }
+
+        [Theory]
+        [InlineData(Lam, ArabicFatha)]                          // لَ => ڵ
+        [InlineData(Beh, Ae, Lam, ArabicFatha, Alef, Meem)]     // بەلَام => بەڵام
+        public void Should_Add_Small_V_To_Lam_With_Fatha(params char[] chars)
+        {
+            var text = new string(chars);
+            var normalized = SoraniNormalization.Normalize(text);
+
+            Assert.True(normalized.Contains(LamWithSmallV));
+            Assert.False(normalized.Contains(ArabicFatha));
+            Assert.False(normalized.Contains(Lam));
+        }
+
+        [Theory]
+        [InlineData(Lam, Alef, Reh)]                        // لار
+        public void Shouldnt_Add_Small_V_To_Lam_Withithout_Fatha(params char[] chars)
+        {
+            var text = new string(chars);
+            var normalized = SoraniNormalization.Normalize(text);
+
+            Assert.True(normalized.Contains(Lam));
+            Assert.False(normalized.Contains(LamWithSmallV));
         }
 
         [Theory]
@@ -170,8 +190,8 @@ namespace DevTree.BeKurdi.Tests
 
             var normalized = SoraniNormalization.Normalize(text);
 
-            Assert.True(normalized[0] == Hamza);
-            Assert.True(normalized[1] == YehWithSmallV);
+            Assert.Equal(Hamza, normalized[0]);
+            Assert.Equal(YehWithSmallV, normalized[1]);
         }
 
         [Theory]
@@ -206,8 +226,20 @@ namespace DevTree.BeKurdi.Tests
             var text = $"{Alef}{Zain}{Alef}{Dal}";  // ازاد
             var normalized = SoraniNormalization.Normalize(text);
 
-            Assert.True(normalized[0] == Hamza);
-            Assert.True(normalized[1] == Alef);
+            Assert.Equal(Hamza, normalized[0]);
+            Assert.Equal(Alef, normalized[1]);
+        }
+
+        [Fact]
+        public void Normalize_A_Sentence()
+        {
+            var text = "ثيَش هةوليَر ضووم بؤ سليَماني. لةويَ ضووم بؤ بازارِ. زؤر شتي جوانم كرِي.";
+
+            var expected = "پێش هەولێر چووم بۆ سلێمانی. لەوێ چووم بۆ بازاڕ. زۆر شتی جوانم کڕی.";
+
+            var normalized = SoraniNormalization.Normalize(text);
+
+            Assert.Equal(expected, normalized);
         }
     }
 }

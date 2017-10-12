@@ -25,6 +25,8 @@ namespace DevTree.BeKurdi
 
             builder.Replace($"{Reh}{ArabicKasra}", $"{RehWithSmallV}");
 
+            builder.Replace($"{Lam}{ArabicFatha}", $"{LamWithSmallV}");
+
             builder.Replace(ArabicLetterTah, Gaf)
                    .Replace(ArabicLetterKaf, Kaf)
                    .Replace(ArabicLetterDad, Tcheh)
@@ -45,7 +47,7 @@ namespace DevTree.BeKurdi
             while (endIndex < builder.Length)
             {
                 endIndex = builder.Length - startIndex <= MaxWordLength ? builder.Length : endIndex;
-                bool exitLoop = endIndex > 0;
+                bool exitLoop = endIndex == builder.Length;
                 while ((endIndex - startIndex) < MaxWordLength && endIndex < builder.Length)
                 {
                     switch (builder[endIndex])
@@ -118,7 +120,6 @@ namespace DevTree.BeKurdi
         {
             if (builder[startIndex] == Reh)
                 builder[startIndex] = RehWithSmallV;
-
 
             return 0;
         }
