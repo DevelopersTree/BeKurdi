@@ -12,6 +12,9 @@ namespace DevTree.BeKurdi
 
         public static string Normalize(this string text)
         {
+            if (text is null) throw new ArgumentNullException(nameof(text));
+            if (text.Length == 0) return text;
+
             var builder = new StringBuilder(text);
 
             // Simple replacements
@@ -100,7 +103,7 @@ namespace DevTree.BeKurdi
             {
                 if (builder[i] != Hamza)
                     continue;
-                
+
                 // A valid hamza has the following properties:
                 //  - It's usually at the beginning of the word
                 //  - It's never at the end of the word

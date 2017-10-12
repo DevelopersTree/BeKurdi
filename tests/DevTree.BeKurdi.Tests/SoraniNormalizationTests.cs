@@ -10,10 +10,24 @@ namespace DevTree.BeKurdi.Tests
 {
     public class SoraniNormalizationTests
     {
+        [Fact]
+        public void Should_Return_Empty_String_When_Given_Empty_String()
+        {
+            var normalized = SoraniNormalization.Normalize(string.Empty);
+            Assert.Equal(string.Empty, normalized);
+        }
+
+        [Fact]
+        public void Passing_Null_Should_Throw_Exception()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+            SoraniNormalization.Normalize(null));
+        }
+
         [Theory]
         [InlineData(Reh)]                                   // ر => ڕ
         [InlineData(Reh, YehWithSmallV, Waw, Yeh)]          // رێوی => ڕێوی
-        public void Normalize_Initial_r_To_R(params char[] chars)
+        public void Should_Change_Initial_r_To_R(params char[] chars)
         {
             var text = new string(chars);
             var normalized = SoraniNormalization.Normalize(text);
@@ -24,7 +38,7 @@ namespace DevTree.BeKurdi.Tests
         [Theory]
         [InlineData(Jeem, Alef, Reh)]                       // جار
         [InlineData(Seen, Ae, Reh, Dal, Alef, Reh)]         // سەردار
-        public void Normalize_Dont_Change_Medial_r_To_R(params char[] chars)
+        public void Should_Not_Change_Medial_r_To_R(params char[] chars)
         {
             var text = new string(chars);
             var normalized = SoraniNormalization.Normalize(text);
@@ -46,7 +60,7 @@ namespace DevTree.BeKurdi.Tests
         [InlineData(ArabicLetterYeh, Yeh)]                              // ي => ی
         [InlineData(ArabicLetterAlefWithHamzaAbove, Alef)]              // أ => ا
         [InlineData(ArabicLetterAlefWithMaddaAbove, Alef)]              // آ => ا
-        public void Normalize_Simple_Chars(char find, char replace)
+        public void Should_Replace_Non_Standard_Char(char find, char replace)
         {
             var text = find.ToString();
             var normalized = SoraniNormalization.Normalize(text);
@@ -78,7 +92,7 @@ namespace DevTree.BeKurdi.Tests
         [InlineData(ArabicLetterAlefMaksura, ArabicFatha)]                  // ىَ => ێ
         [InlineData(Beh, ArabicLetterYeh, ArabicFatha)]                     // بيَ => بێ
         [InlineData(RehWithSmallV, ArabicLetterYeh, ArabicFatha, Zain)]     // ڕيَز => ڕێز
-        public void Normalize_Ye_With_SmallV(params char[] chars)
+        public void Should_Replace_Ye_Followed_By_Kasra_To_YeWithSmallV(params char[] chars)
         {
             var text = new string(chars);
             var normalized = SoraniNormalization.Normalize(text);
@@ -98,7 +112,7 @@ namespace DevTree.BeKurdi.Tests
         [InlineData(ArabicLetterWawWithHamzaAbove)]                         // ؤ => ێ
         [InlineData(Beh, ArabicLetterWawWithHamzaAbove)]                    // بؤ => بۆ
         [InlineData(RehWithSmallV, ArabicLetterWawWithHamzaAbove, Jeh)]     // ڕؤژ => ڕۆژ
-        public void Normalize_Oe_With_SmallV(params char[] chars)
+        public void Should_Replace_Waw_Followed_By_Fatha_To_Oe(params char[] chars)
         {
             var text = new string(chars);
             var normalized = SoraniNormalization.Normalize(text);
@@ -113,7 +127,7 @@ namespace DevTree.BeKurdi.Tests
         [InlineData(Reh, ArabicKasra)]                          // رِ => ڕ
         [InlineData(Beh, Reh, ArabicKasra)]                     // برِ => بڕ
         [InlineData(Kaf, Reh, ArabicKasra, Yeh, Noon)]          // کرِین => کڕین
-        public void Should_Add_Small_V_To_Reh_With_Fatha(params char[] chars)
+        public void Should_Replace_Reh_Followed_By_Kasra_With_RehWithSmallV(params char[] chars)
         {
             var text = new string(chars);
             var normalized = SoraniNormalization.Normalize(text);
@@ -126,7 +140,7 @@ namespace DevTree.BeKurdi.Tests
         [Theory]
         [InlineData(Kaf, Alef, Reh)]                                 // کار
         [InlineData(Teh, Reh, Yeh, Sheen)]                           // تریش
-        public void Shouldnt_Add_Small_V_To_Reh_Without_Fatha(params char[] chars)
+        public void Should_Not_Replace_Reh_Not_Followed_By_Kasra(params char[] chars)
         {
             var text = new string(chars);
             var normalized = SoraniNormalization.Normalize(text);
@@ -138,7 +152,7 @@ namespace DevTree.BeKurdi.Tests
         [Theory]
         [InlineData(Lam, ArabicFatha)]                          // لَ => ڵ
         [InlineData(Beh, Ae, Lam, ArabicFatha, Alef, Meem)]     // بەلَام => بەڵام
-        public void Should_Add_Small_V_To_Lam_With_Fatha(params char[] chars)
+        public void Should_Replace_Lam_Followed_By_Fatha_With_LamWithSmallV(params char[] chars)
         {
             var text = new string(chars);
             var normalized = SoraniNormalization.Normalize(text);
@@ -150,7 +164,7 @@ namespace DevTree.BeKurdi.Tests
 
         [Theory]
         [InlineData(Lam, Alef, Reh)]                        // لار
-        public void Shouldnt_Add_Small_V_To_Lam_Withithout_Fatha(params char[] chars)
+        public void Should_Not_Replace_Lam_Not_Followed_By_Fatha(params char[] chars)
         {
             var text = new string(chars);
             var normalized = SoraniNormalization.Normalize(text);
@@ -162,7 +176,7 @@ namespace DevTree.BeKurdi.Tests
         [Theory]
         [InlineData(Hamza, Alef, Seen, Noon)]                       // ئاسان
         [InlineData(Hamza, Ae, Noon, Jeem, Ae, Meem)]               // ئەنجام
-        public void Normalize_Hamza_With_Vowels(params char[] chars)
+        public void Should_Not_Replace_Hamza_Followed_By_Vowels(params char[] chars)
         {
             var text = new string(chars);
             var normalized = SoraniNormalization.Normalize(text);
@@ -174,7 +188,7 @@ namespace DevTree.BeKurdi.Tests
         [Theory]
         [InlineData(Beh, Hamza)]                                // بئ => بێ
         [InlineData(Beh, Hamza, Gaf, Waw, Meem, Alef, Noon)]    // بئگومان => بێگومان
-        public void Normalize_Hamza_With_Consonants(params char[] chars)
+        public void Should_Replace_Hamza_Followed_By_Consonants_With_YehWithSmallV(params char[] chars)
         {
             var text = new string(chars);
             var normalized = SoraniNormalization.Normalize(text);
@@ -184,7 +198,7 @@ namespace DevTree.BeKurdi.Tests
         }
 
         [Fact] // ئئستا => ئێستا     
-        public void Normalize_Hamza_With_Consonants_AtTheBeggining()
+        public void Should_Replace_Second_Hamza_But_Not_First_Hamza()
         {
             var text = $"{Hamza}{Hamza}{Seen}{Teh}{Alef}"; // ئێستا
 
@@ -221,7 +235,7 @@ namespace DevTree.BeKurdi.Tests
         }
 
         [Fact]  // ازاد => ئازاد
-        public void Normalize_Aelf_At_The_Begenning_Of_A_Word()
+        public void Should_Insert_Hamza_To_The_Begenning_Of_The_Words_That_Start_With_Aelf()
         {
             var text = $"{Alef}{Zain}{Alef}{Dal}";  // ازاد
             var normalized = SoraniNormalization.Normalize(text);
