@@ -7,7 +7,7 @@ dist: trusty
 script:
  - dotnet restore
  - dotnet build -c Release
- - dotnet test .\tests\DevTree.BeKurdi.Tests\
+ - dotnet test ./tests/DevTree.BeKurdi.Tests/DevTree.BeKurdi.Tests.csproj
  
 deploy:
  skip_cleanup: true
