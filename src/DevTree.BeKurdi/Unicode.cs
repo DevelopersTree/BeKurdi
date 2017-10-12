@@ -709,6 +709,14 @@ namespace DevTree.BeKurdi
         /// </summary>
         public const char LatinNine = '\u0039';
         #endregion // Latin Numbers
+
+        #region Latin Punctuation
+        /// <summary>
+        /// <para>Latin Punctuation: <code>?</code> - <code>U+003F</code> </para>
+        /// <para>Unicode Name: QUESTION MARK </para>
+        /// </summary>
+        public const char LatinQuestionMark = '\u003F';
+        #endregion
         #endregion // Characters
 
         #region Character Sets
@@ -772,11 +780,11 @@ namespace DevTree.BeKurdi
         public static IReadOnlyList<char> NonStandardSoraniAlphabetVowels => new List<char>
         {
             ArabicLetterAlefWithHamzaAbove, ArabicLetterAlefWithMaddaAbove, ArabicLetterYeh,        ArabicLetterWawWithHamzaAbove,
-            ArabicLetterWawWithHamzaAbove,  ArabicLetterAlefMaksura,        ArabicLetterTehMarbuta,  
+            ArabicLetterWawWithHamzaAbove,  ArabicLetterAlefMaksura,        ArabicLetterTehMarbuta,
         };
 
-        private static IReadOnlyList<char> _allSoraniAlphabetVowls = SoraniAlphabetVowels.Union(NonStandardSoraniAlphabetVowels).ToList();
-        public static IReadOnlyList<char> AllSoraniAlphabetVowls => _allSoraniAlphabetVowls;
+        private static SortedSet<char> _allSoraniAlphabetVowls = new SortedSet<char>(SoraniAlphabetVowels.Union(NonStandardSoraniAlphabetVowels));
+        public static SortedSet<char> AllSoraniAlphabetVowls => _allSoraniAlphabetVowls;
 
         /// <summary>
         /// Gets the list of numbers used in the Latin alphabet.

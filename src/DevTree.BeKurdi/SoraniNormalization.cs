@@ -10,65 +10,74 @@ namespace DevTree.BeKurdi
     {
         private const int MaxWordLength = 50;
 
-        private static Dictionary<char, Func<StringBuilder, int, int, int>> _transformations = new Dictionary<char, Func<StringBuilder, int, int, int>>
-        {
-            { ArabicLetterTah,                  (b, s, e) => ReplaceChars(b, s, e, ArabicLetterTah,                 Gaf     ) },
-            { ArabicLetterTehMarbuta,           (b, s, e) => ReplaceChars(b, s, e, ArabicLetterTehMarbuta,          Ae      ) },
-            { ArabicLetterKaf,                  (b, s, e) => ReplaceChars(b, s, e, ArabicLetterKaf,                 Kaf     ) },
-            { ArabicLetterDad,                  (b, s, e) => ReplaceChars(b, s, e, ArabicLetterDad,                 Tcheh   ) },
-            { ArabicLetterZah,                  (b, s, e) => ReplaceChars(b, s, e, ArabicLetterZah,                 Veh     ) },
-            { ArabicLetterTheh,                 (b, s, e) => ReplaceChars(b, s, e, ArabicLetterTheh,                Peh     ) },
-            { ArabicLetterThal,                 (b, s, e) => ReplaceChars(b, s, e, ArabicLetterThal,                Jeh     ) },
-            { ArabicLetterWawWithHamzaAbove,    (b, s, e) => ReplaceChars(b, s, e, ArabicLetterWawWithHamzaAbove,   Oe      ) },
-            { ArabicLetterHehDoachashmee,       (b, s, e) => ReplaceChars(b, s, e, ArabicLetterHehDoachashmee,      Heh     ) },
-            { ArabicLetterAlefWithHamzaAbove,   (b, s, e) => ReplaceChars(b, s, e, ArabicLetterAlefWithHamzaAbove,  Alef    ) },
-            { ArabicLetterAlefWithMaddaAbove,   (b, s, e) => ReplaceChars(b, s, e, ArabicLetterAlefWithMaddaAbove,  Alef    ) },
-
-            { Reh,                              NormalizeRe                         },
-            { ArabicLetterAlefMaksura,          NormalizeYe                         },
-            { ArabicLetterYeh,                  NormalizeYe                         },
-            { Yeh,                              NormalizeYe                         },
-            { Hamza,                            NormalizeHamza                      },
-            { Waw,                              NormalizeWaw                        },
-            { ZeroWidthNonJoiner,               NormalizeHehWithZeroWidthNonJoiner  },
-            { Alef,                             NormalizeAlef                       },
-        };
-
         public static string Normalize(this string text)
         {
             var builder = new StringBuilder(text);
 
+            builder.Replace($"{Yeh}{ArabicFatha}", $"{YehWithSmallV}")
+                   .Replace($"{ArabicLetterYeh}{ArabicFatha}", $"{YehWithSmallV}")
+                   .Replace($"{ArabicLetterAlefMaksura}{ArabicFatha}", $"{YehWithSmallV}");
+
+            builder.Replace($"{Waw}{ArabicFatha}", $"{Oe}");
+
+            builder.Replace($"{Heh}{ZeroWidthNonJoiner}", $"{Ae}");
+
+            builder.Replace($"{Reh}{ArabicKasra}", $"{RehWithSmallV}");
+
+            builder.Replace(ArabicLetterTah, Gaf)
+                   .Replace(ArabicLetterKaf, Kaf)
+                   .Replace(ArabicLetterDad, Tcheh)
+                   .Replace(ArabicLetterZah, Veh)
+                   .Replace(ArabicLetterTheh, Peh)
+                   .Replace(ArabicLetterThal, Jeh)
+                   .Replace(ArabicLetterWawWithHamzaAbove, Oe)
+                   .Replace(ArabicLetterHehDoachashmee, Heh)
+                   .Replace(ArabicLetterAlefWithHamzaAbove, Alef)
+                   .Replace(ArabicLetterAlefWithMaddaAbove, Alef)
+                   .Replace(ArabicLetterTehMarbuta, Ae)
+                   .Replace(ArabicLetterYeh, Yeh)
+                   .Replace(ArabicLetterAlefMaksura, Yeh);
+
             int startIndex = 0;
             int endIndex = 0;
 
-            var symbols = SoraniPunctuation.Union(CommonSymbols).ToList();
-
             while (endIndex < builder.Length)
             {
+                endIndex = builder.Length - startIndex <= MaxWordLength ? builder.Length : endIndex;
+                bool exitLoop = endIndex > 0;
                 while ((endIndex - startIndex) < MaxWordLength && endIndex < builder.Length)
                 {
-                    if (symbols.Contains(builder[endIndex]))
+                    switch (builder[endIndex])
                     {
-                        endIndex++;
-                        break;
+                        case Space:
+                        case FullStop:
+                        case SoraniSemicolon:
+                        case Semicolon:
+                        case SoraniQuestionMark:
+                        case LatinQuestionMark:
+                            exitLoop = true;
+                            break;
                     }
 
                     endIndex++;
-                }
 
-                var applicableTransformations = new HashSet<Func<StringBuilder, int, int, int>>();
+                    if (exitLoop) break;
+                }
 
                 for (int i = startIndex; i < endIndex; i++)
                 {
-                    if (_transformations.ContainsKey(builder[i]))
+                    switch (builder[i])
                     {
-                        applicableTransformations.Add(_transformations[builder[i]]);
+                        case Hamza:
+                            endIndex += NormalizeHamza(builder, startIndex, endIndex);
+                            break;
+                        case Alef:
+                            endIndex += NormalizeInitialAlef(builder, startIndex, endIndex);
+                            break;
+                        case Reh:
+                            endIndex += NormalizeInitialRe(builder, startIndex, endIndex);
+                            break;
                     }
-                }
-
-                foreach (var transformation in applicableTransformations)
-                {
-                    endIndex += transformation(builder, startIndex, endIndex);
                 }
 
                 startIndex = endIndex;
@@ -78,63 +87,6 @@ namespace DevTree.BeKurdi
         }
 
         #region Transformation Functions
-        private static int NormalizeRe(StringBuilder builder, int startIndex, int limit)
-        {
-            int change = 0;
-            for (int i = startIndex; i < limit; i++)
-            {
-                if (builder[i] != Reh)
-                    continue;
-
-                if (i + 1 < limit && builder[i + 1] == ArabicKasra)
-                {
-                    builder[i] = RehWithSmallV;
-                    builder.Remove(i + 1, 1);
-                    change--;
-                    limit--;
-                    continue;
-                }
-
-                if (i == startIndex)
-                    builder[startIndex] = RehWithSmallV;
-            }
-
-            return change;
-        }
-
-        private static int NormalizeYe(StringBuilder builder, int startIndex, int limit)
-        {
-            return NormalizeLetterThatHasV(builder, startIndex, limit, YehWithSmallV, Yeh, ArabicLetterYeh, ArabicLetterAlefMaksura);
-        }
-
-        private static int NormalizeWaw(StringBuilder builder, int startIndex, int limit)
-        {
-            return NormalizeLetterThatHasV(builder, startIndex, limit, Oe, Waw);
-        }
-
-        private static int NormalizeLetterThatHasV(StringBuilder builder, int startIndex, int limit, char replace, char find, params char[] findAlso)
-        {
-            int change = 0;
-            for (int i = startIndex; i < limit; i++)
-            {
-                if (builder[i] != find && !findAlso.Contains(builder[i]))
-                    continue;
-
-                if (i + 1 < limit && builder[i + 1] == ArabicFatha)
-                {
-                    builder[i] = replace;
-                    builder.Remove(i + 1, 1);
-                    change--;
-                    limit--;
-                    continue;
-                }
-
-                builder[i] = find;
-            }
-
-            return change;
-        }
-
         private static int NormalizeHamza(StringBuilder builder, int startIndex, int limit)
         {
             for (int i = startIndex; i < limit; i++)
@@ -152,45 +104,19 @@ namespace DevTree.BeKurdi
             return 0;
         }
 
-        private static int NormalizeHehWithZeroWidthNonJoiner(StringBuilder builder, int startIndex, int limit)
+        private static int NormalizeInitialAlef(StringBuilder builder, int startIndex, int limit)
         {
-            int change = 0;
-            for (int i = startIndex; i < limit; i++)
-            {
-                if (builder[i] != Heh)
-                    continue;
-
-                if (i + 1 < limit && builder[i + 1] == ZeroWidthNonJoiner)
-                {
-                    builder[i] = Ae;
-                    builder.Remove(i + 1, 1);
-                    change--;
-                    limit--;
-                    continue;
-                }
-            }
-
-            return change;
-        }
-
-        private static int NormalizeAlef(StringBuilder builder, int startIndex, int limit)
-        {
-            if (builder.Length == 0 || builder[0] != Alef)
+            if (limit - startIndex <= 1 || builder[0] != Alef)
                 return 0;
 
             builder.Insert(0, Hamza);
             return 1;
         }
 
-        private static int ReplaceChars(StringBuilder builder, int startIndex, int endIndex, char find, char replace)
+        private static int NormalizeInitialRe(StringBuilder builder, int startIndex, int limit)
         {
-            for (int i = startIndex; i < endIndex; i++)
-            {
-                if (builder[i] == find)
-                {
-                    builder[i] = replace;
-                }
-            }
+            if (builder[startIndex] == Reh)
+                builder[startIndex] = RehWithSmallV;
 
             return 0;
         }
