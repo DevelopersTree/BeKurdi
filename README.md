@@ -1,7 +1,7 @@
 # Be Kurdi (بە کوردی)
 Kurdish language is being written in three main alphabets: [Sorani Alphabet, Latin Alphabet And Crylic Alphabet](https://en.wikipedia.org/wiki/Kurdish_alphabets). This library provides a simple way to convert bodies of text between the different alphabets.
 
-# Install Nuget Package: [![NuGet](https://img.shields.io/nuget/v/DevTree.BeKurdi.svg)](https://www.nuget.org/packages/DevTree.BeKurdi/)
+## Install Nuget Package: [![NuGet](https://img.shields.io/nuget/v/DevTree.BeKurdi.svg)](https://www.nuget.org/packages/DevTree.BeKurdi/)
 ```
 PM> Install-Package DevTree.BeKurdi
 ```
