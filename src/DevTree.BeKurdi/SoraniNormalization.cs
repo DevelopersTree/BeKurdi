@@ -14,12 +14,27 @@ namespace DevTree.BeKurdi
         {
             var builder = new StringBuilder(text);
 
+            // Simple replacements
+            builder.Replace(ArabicLetterTah, Gaf)                   // ط => گ
+                   .Replace(ArabicLetterKaf, Kaf)                   // ك => ک
+                   .Replace(ArabicLetterDad, Tcheh)                 // ض => چ
+                   .Replace(ArabicLetterZah, Veh)                   // ظ => ڤ
+                   .Replace(ArabicLetterTheh, Peh)                  // ث => پ
+                   .Replace(ArabicLetterThal, Jeh)                  // ذ => ژ
+                   .Replace(ArabicLetterWawWithHamzaAbove, Oe)      // ؤ => ۆ
+                   .Replace(ArabicLetterHehDoachashmee, Heh)        // ھ => ه
+                   .Replace(ArabicLetterAlefWithHamzaAbove, Alef)   // أ => ا
+                   .Replace(ArabicLetterAlefWithMaddaAbove, Alef)   // آ => ا
+                   .Replace(ArabicLetterTehMarbuta, Ae)             // ة => ە
+                   .Replace(ArabicLetterYeh, Yeh)                   // ي => ی
+                   .Replace(ArabicLetterAlefMaksura, Yeh);          // ى => ی
 
-            builder.Replace($"{Yeh}{ArabicFatha}", $"{YehWithSmallV}")
-                   .Replace($"{ArabicLetterYeh}{ArabicFatha}", $"{YehWithSmallV}")
-                   .Replace($"{ArabicLetterAlefMaksura}{ArabicFatha}", $"{YehWithSmallV}");
-
+            // Two-character replacements
             builder.Replace($"{Waw}{ArabicFatha}", $"{Oe}");
+
+            // We don't need to account for other types of Yeh, because the are already
+            // normalized in the previous step.
+            builder.Replace($"{Yeh}{ArabicFatha}", $"{YehWithSmallV}");
 
             builder.Replace($"{Heh}{ZeroWidthNonJoiner}", $"{Ae}");
 
@@ -27,30 +42,18 @@ namespace DevTree.BeKurdi
 
             builder.Replace($"{Lam}{ArabicFatha}", $"{LamWithSmallV}");
 
-            builder.Replace(ArabicLetterTah, Gaf)
-                   .Replace(ArabicLetterKaf, Kaf)
-                   .Replace(ArabicLetterDad, Tcheh)
-                   .Replace(ArabicLetterZah, Veh)
-                   .Replace(ArabicLetterTheh, Peh)
-                   .Replace(ArabicLetterThal, Jeh)
-                   .Replace(ArabicLetterWawWithHamzaAbove, Oe)
-                   .Replace(ArabicLetterHehDoachashmee, Heh)
-                   .Replace(ArabicLetterAlefWithHamzaAbove, Alef)
-                   .Replace(ArabicLetterAlefWithMaddaAbove, Alef)
-                   .Replace(ArabicLetterTehMarbuta, Ae)
-                   .Replace(ArabicLetterYeh, Yeh)
-                   .Replace(ArabicLetterAlefMaksura, Yeh);
+            // Replacements based on rules
+            int startOfWord = 0;
+            int endOfWord = 0;
 
-            int startIndex = 0;
-            int endIndex = 0;
-
-            while (endIndex < builder.Length)
+            while (endOfWord < builder.Length)
             {
-                endIndex = builder.Length - startIndex <= MaxWordLength ? builder.Length : endIndex;
-                bool exitLoop = endIndex == builder.Length;
-                while ((endIndex - startIndex) < MaxWordLength && endIndex < builder.Length)
+                // Find the start and the end of the next word
+                endOfWord = builder.Length - startOfWord <= MaxWordLength ? builder.Length : endOfWord;
+                bool reachedEndOfWord = endOfWord == builder.Length;
+                while ((endOfWord - startOfWord) < MaxWordLength && endOfWord < builder.Length)
                 {
-                    switch (builder[endIndex])
+                    switch (builder[endOfWord])
                     {
                         case Space:
                         case FullStop:
@@ -58,32 +61,33 @@ namespace DevTree.BeKurdi
                         case Semicolon:
                         case SoraniQuestionMark:
                         case LatinQuestionMark:
-                            exitLoop = true;
+                            reachedEndOfWord = true;
                             break;
                     }
 
-                    endIndex++;
+                    endOfWord++;
 
-                    if (exitLoop) break;
+                    if (reachedEndOfWord) break;
                 }
 
-                for (int i = startIndex; i < endIndex; i++)
+                // Now apply some transformations based on the characters of the word
+                for (int i = startOfWord; i < endOfWord; i++)
                 {
                     switch (builder[i])
                     {
                         case Hamza:
-                            endIndex += NormalizeHamza(builder, startIndex, endIndex);
+                            endOfWord += NormalizeHamza(builder, startOfWord, endOfWord);
                             break;
                         case Alef:
-                            endIndex += NormalizeInitialAlef(builder, startIndex, endIndex);
+                            endOfWord += NormalizeInitialAlef(builder, startOfWord, endOfWord);
                             break;
                         case Reh:
-                            endIndex += NormalizeInitialRe(builder, startIndex, endIndex);
+                            endOfWord += NormalizeInitialReh(builder, startOfWord, endOfWord);
                             break;
                     }
                 }
 
-                startIndex = endIndex;
+                startOfWord = endOfWord;
             }
 
             return builder.ToString();
@@ -96,7 +100,14 @@ namespace DevTree.BeKurdi
             {
                 if (builder[i] != Hamza)
                     continue;
-
+                
+                // A valid hamza has the following properties:
+                //  - It's usually at the beginning of the word
+                //  - It's never at the end of the word
+                //  - It's usually followed by a vowel
+                //
+                // So If a hamza broke rule 1 as well as one of the other two rules, it's not a hamza,
+                // it's acutally meant to be a YehWithSmallV
                 if (i != startIndex && (i + 1 == limit || !AllSoraniAlphabetVowls.Contains(builder[i + 1])))
                 {
                     builder[i] = YehWithSmallV;
@@ -112,12 +123,15 @@ namespace DevTree.BeKurdi
             if (limit - startIndex <= 1 || builder[0] != Alef)
                 return 0;
 
+            // In Sorani alphabet words can't start with vowels, so if an alef was at the begining
+            // of a word, place a hamza in front of it.
             builder.Insert(0, Hamza);
             return 1;
         }
 
-        private static int NormalizeInitialRe(StringBuilder builder, int startIndex, int limit)
+        private static int NormalizeInitialReh(StringBuilder builder, int startIndex, int limit)
         {
+            // Words never start with Reh, if a word started with one, replace it with RehWithSmallV
             if (builder[startIndex] == Reh)
                 builder[startIndex] = RehWithSmallV;
 
