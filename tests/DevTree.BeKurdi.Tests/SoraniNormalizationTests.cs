@@ -209,6 +209,5 @@ namespace DevTree.BeKurdi.Tests
             Assert.True(normalized[0] == Hamza);
             Assert.True(normalized[1] == Alef);
         }
-
     }
 }

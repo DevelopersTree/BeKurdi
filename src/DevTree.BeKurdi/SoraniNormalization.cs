@@ -14,6 +14,7 @@ namespace DevTree.BeKurdi
         {
             var builder = new StringBuilder(text);
 
+
             builder.Replace($"{Yeh}{ArabicFatha}", $"{YehWithSmallV}")
                    .Replace($"{ArabicLetterYeh}{ArabicFatha}", $"{YehWithSmallV}")
                    .Replace($"{ArabicLetterAlefMaksura}{ArabicFatha}", $"{YehWithSmallV}");
@@ -117,6 +118,7 @@ namespace DevTree.BeKurdi
         {
             if (builder[startIndex] == Reh)
                 builder[startIndex] = RehWithSmallV;
+
 
             return 0;
         }
