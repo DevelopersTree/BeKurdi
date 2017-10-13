@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.4.0</Version>
+    <Version>0.0.5.0</Version>
     <Authors>Muhammad Azeez</Authors>
     <Company>Developers Tree</Company>
     <Description>A .Net library to convert Kurdish text between different alphabets</Description>
@@ -11,8 +11,8 @@
     <PackageProjectUrl>https://github.com/DevelopersTree/BeKurdi</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DevelopersTree/BeKurdi</RepositoryUrl>
     <PackageTags>Kurdish, lingusitics, alphabet</PackageTags>
-    <PackageReleaseNotes>+ Added Sorani Normalization
- + Some breaking changes to Unicode class</PackageReleaseNotes>
+    <PackageReleaseNotes>+ Fix a bug where SoraniLam + Kasra wouldn't be replaced with SoraniHeavyLam
+ + Changing the names to be hopefully more consistent</PackageReleaseNotes>
 
   </PropertyGroup>
   

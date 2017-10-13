@@ -10,168 +10,202 @@ namespace DevTree.BeKurdi.Tests
 {
     public class SoraniNormalizationTests
     {
-        [Theory]
-        [InlineData(Reh)]                                   // ر => ڕ
-        [InlineData(Reh, YehWithSmallV, Waw, Yeh)]          // رێوی => ڕێوی
-        public void Normalize_Initial_r_To_R(params char[] chars)
+        [Fact]
+        public void Should_Return_Empty_String_When_Given_Empty_String()
         {
-            var text = new string(chars);
-            var normalized = SoraniNormalization.Normalize(text);
+            var normalized = Sorani.ToStandardSorani(string.Empty);
+            Assert.Equal(string.Empty, normalized);
+        }
 
-            Assert.True(normalized[0] == RehWithSmallV);
+        [Fact]
+        public void Passing_Null_Should_Throw_Exception()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+            Sorani.ToStandardSorani(null));
         }
 
         [Theory]
-        [InlineData(Jeem, Alef, Reh)]                       // جار
-        [InlineData(Seen, Ae, Reh, Dal, Alef, Reh)]         // سەردار
-        public void Normalize_Dont_Change_Medial_r_To_R(params char[] chars)
+        [InlineData(SoraniReh)]                                               // ر => ڕ
+        [InlineData(SoraniReh, SoraniOpenYeh, SoraniWaw, SoraniYeh)]          // رێوی => ڕێوی
+        public void Should_Change_Initial_r_To_R(params char[] chars)
         {
             var text = new string(chars);
-            var normalized = SoraniNormalization.Normalize(text);
+            var normalized = Sorani.ToStandardSorani(text);
 
-            Assert.True(normalized == text);
+            Assert.Equal(SoraniHeavyReh, normalized[0]);
         }
 
         [Theory]
-        [InlineData(ArabicLetterDad, Tcheh)]                            // ض => چ
-        [InlineData(ArabicLetterThal, Jeh)]                             // ذ => ژ
-        [InlineData(ArabicLetterZah, Veh)]                              // ظ => ڤ
-        [InlineData(ArabicLetterTheh, Peh)]                             // ث => پ
-        [InlineData(ArabicLetterTah, Gaf)]                              // ط => گ
-        [InlineData(ArabicLetterKaf, Kaf)]                              // ك => ک
-        [InlineData(ArabicLetterHehDoachashmee, Heh)]                   // ه‍ => ه 
-        [InlineData(ArabicLetterTehMarbuta, Ae)]                        // ة => ە
-        [InlineData(ArabicLetterWawWithHamzaAbove, Oe)]                 // ؤ => ۆ
-        [InlineData(ArabicLetterAlefMaksura, Yeh)]                      // ى => ی
-        [InlineData(ArabicLetterYeh, Yeh)]                              // ي => ی
-        [InlineData(ArabicLetterAlefWithHamzaAbove, Alef)]              // أ => ا
-        [InlineData(ArabicLetterAlefWithMaddaAbove, Alef)]              // آ => ا
-        public void Normalize_Simple_Chars(char find, char replace)
+        [InlineData(SoraniJeem, SoraniAlef, SoraniReh)]                                         // جار
+        [InlineData(SoraniSeen, SoraniAe, SoraniReh, SoraniDal, SoraniAlef, SoraniReh)]         // سەردار
+        public void Should_Not_Change_Medial_r_To_R(params char[] chars)
+        {
+            var text = new string(chars);
+            var normalized = Sorani.ToStandardSorani(text);
+
+            Assert.Equal(text, normalized);
+        }
+
+        [Theory]
+        [InlineData(ArabicDad, SoraniCheem)]                            // ض => چ
+        [InlineData(ArabicThal, SoraniJeh)]                             // ذ => ژ
+        [InlineData(ArabicLZah, SoraniVeh)]                             // ظ => ڤ
+        [InlineData(ArabicTheh, SoraniPeh)]                             // ث => پ
+        [InlineData(ArabicTah, SoraniGaf)]                              // ط => گ
+        [InlineData(ArabicKaf, SoraniKaf)]                              // ك => ک
+        [InlineData(ArabicHehDoachashmee, SoraniHeh)]                   // ه‍ => ه 
+        [InlineData(ArabicTehMarbuta, SoraniAe)]                        // ة => ە
+        [InlineData(ArabicWawWithHamzaAbove, SoraniOe)]                 // ؤ => ۆ
+        [InlineData(ArabicAlefMaksura, SoraniYeh)]                      // ى => ی
+        [InlineData(ArabicYeh, SoraniYeh)]                              // ي => ی
+        [InlineData(ArabicAlefWithHamzaAbove, SoraniAlef)]              // أ => ا
+        [InlineData(ArabicAlefWithMaddaAbove, SoraniAlef)]              // آ => ا
+        public void Should_Replace_Non_Standard_Char(char find, char replace)
         {
             var text = find.ToString();
-            var normalized = SoraniNormalization.Normalize(text);
+            var normalized = Sorani.ToStandardSorani(text);
 
             Assert.True(normalized == replace.ToString());
 
-            text = $"{Alef}{find}";
+            text = $"{SoraniAlef}{find}";
             AssertSimpleSoraniNormalizer(text, find, replace);
 
-            text = $"{find}{Alef}";
+            text = $"{find}{SoraniAlef}";
             AssertSimpleSoraniNormalizer(text, find, replace);
 
-            text = $"{Beh}{find}";
+            text = $"{SoraniBeh}{find}";
             AssertSimpleSoraniNormalizer(text, find, replace);
 
-            text = $"{find}{Beh}";
+            text = $"{find}{SoraniBeh}";
             AssertSimpleSoraniNormalizer(text, find, replace);
         }
 
         private void AssertSimpleSoraniNormalizer(string text, char find, char replace)
         {
-            var normalized = SoraniNormalization.Normalize(text);
+            var normalized = Sorani.ToStandardSorani(text);
             Assert.True(normalized.Contains(replace));
             Assert.False(normalized.Contains(find));
         }
 
         [Theory]
-        [InlineData(ArabicLetterYeh, ArabicFatha)]                          // يَ => ێ
-        [InlineData(ArabicLetterAlefMaksura, ArabicFatha)]                  // ىَ => ێ
-        [InlineData(Beh, ArabicLetterYeh, ArabicFatha)]                     // بيَ => بێ
-        [InlineData(RehWithSmallV, ArabicLetterYeh, ArabicFatha, Zain)]     // ڕيَز => ڕێز
-        public void Normalize_Ye_With_SmallV(params char[] chars)
+        [InlineData(ArabicYeh, ArabicFatha)]                                // يَ => ێ
+        [InlineData(ArabicAlefMaksura, ArabicFatha)]                        // ىَ => ێ
+        [InlineData(SoraniBeh, ArabicYeh, ArabicFatha)]                     // بيَ => بێ
+        [InlineData(SoraniHeavyReh, ArabicYeh, ArabicFatha, SoraniZeh)]     // ڕيَز => ڕێز
+        public void Should_Replace_Yeh_Followed_By_Kasra_To_OpenYeh(params char[] chars)
         {
             var text = new string(chars);
-            var normalized = SoraniNormalization.Normalize(text);
+            var normalized = Sorani.ToStandardSorani(text);
 
-            Assert.True(normalized.Contains(YehWithSmallV));
+            Assert.True(normalized.Contains(SoraniOpenYeh));
             Assert.False(normalized.Contains(ArabicFatha));
-            Assert.False(normalized.Contains(ArabicLetterYeh));
-            Assert.False(normalized.Contains(ArabicLetterAlefMaksura));
+            Assert.False(normalized.Contains(ArabicYeh));
+            Assert.False(normalized.Contains(ArabicAlefMaksura));
         }
 
         [Theory]
-        [InlineData(Waw, ArabicFatha)]                                      // وَ => ۆ
-        [InlineData(Waw, ArabicFatha)]                                      // ىَ => ۆ
-        [InlineData(Beh, Waw, ArabicFatha)]                                 // بوَ => بۆ
-        [InlineData(RehWithSmallV, Waw, ArabicFatha, Jeh)]                  // ڕوَژ => ڕۆژ
+        [InlineData(SoraniWaw, ArabicFatha)]                                      // وَ => ۆ
+        [InlineData(SoraniWaw, ArabicFatha)]                                      // ىَ => ۆ
+        [InlineData(SoraniBeh, SoraniWaw, ArabicFatha)]                           // بوَ => بۆ
+        [InlineData(SoraniHeavyReh, SoraniWaw, ArabicFatha, SoraniJeh)]           // ڕوَژ => ڕۆژ
 
-        [InlineData(ArabicLetterWawWithHamzaAbove)]                         // ؤ => ێ
-        [InlineData(Beh, ArabicLetterWawWithHamzaAbove)]                    // بؤ => بۆ
-        [InlineData(RehWithSmallV, ArabicLetterWawWithHamzaAbove, Jeh)]     // ڕؤژ => ڕۆژ
-        public void Normalize_Oe_With_SmallV(params char[] chars)
+        [InlineData(ArabicWawWithHamzaAbove)]                                     // ؤ => ێ
+        [InlineData(SoraniBeh, ArabicWawWithHamzaAbove)]                          // بؤ => بۆ
+        [InlineData(SoraniHeavyReh, ArabicWawWithHamzaAbove, SoraniJeh)]          // ڕؤژ => ڕۆژ
+        public void Should_Replace_Waw_Followed_By_Fatha_To_Oe(params char[] chars)
         {
             var text = new string(chars);
-            var normalized = SoraniNormalization.Normalize(text);
+            var normalized = Sorani.ToStandardSorani(text);
 
-            Assert.True(normalized.Contains(Oe));
+            Assert.True(normalized.Contains(SoraniOe));
             Assert.False(normalized.Contains(ArabicFatha));
-            Assert.False(normalized.Contains(Waw));
-            Assert.False(normalized.Contains(ArabicLetterWawWithHamzaAbove));
+            Assert.False(normalized.Contains(SoraniWaw));
+            Assert.False(normalized.Contains(ArabicWawWithHamzaAbove));
         }
 
         [Theory]
-        [InlineData(Reh, ArabicKasra)]                          // رِ => ڕ
-        [InlineData(Beh, Reh, ArabicKasra)]                     // برِ => بڕ
-        [InlineData(Kaf, Reh, ArabicKasra, Yeh, Noon)]          // کرِین => کڕین
-        public void Normalize_Reh_With_SmallV(params char[] chars)
+        [InlineData(SoraniReh, ArabicKasra)]                                        // رِ => ڕ
+        [InlineData(SoraniBeh, SoraniReh, ArabicKasra)]                             // برِ => بڕ
+        [InlineData(SoraniKaf, SoraniReh, ArabicKasra, SoraniYeh, SoraniNoon)]      // کرِین => کڕین
+        public void Should_Replace_Reh_Followed_By_Kasra_With_HeavyReh(params char[] chars)
         {
             var text = new string(chars);
-            var normalized = SoraniNormalization.Normalize(text);
+            var normalized = Sorani.ToStandardSorani(text);
 
-            Assert.True(normalized.Contains(RehWithSmallV));
+            Assert.True(normalized.Contains(SoraniHeavyReh));
             Assert.False(normalized.Contains(ArabicKasra));
-            Assert.False(normalized.Contains(Reh));
+            Assert.False(normalized.Contains(SoraniReh));
         }
 
         [Theory]
-        [InlineData(Heh, ZeroWidthNonJoiner)]
-        [InlineData(Space, Heh, ZeroWidthNonJoiner)]
-        [InlineData(Heh, ZeroWidthNonJoiner, Space)]
-        [InlineData(Beh, Heh, ZeroWidthNonJoiner)]                  // بە
-        [InlineData(Dal, Heh, ZeroWidthNonJoiner, Seen, Teh)]       // دەست
-        public void Normalize_Heh_With_Zer_Width_Non_Joiner(params char[] chars)
+        [InlineData(SoraniKaf, SoraniAlef, SoraniReh)]                                 // کار
+        [InlineData(SoraniTeh, SoraniReh, SoraniYeh, SoraniSheen)]                     // تریش
+        public void Should_Not_Replace_Reh_Not_Followed_By_Kasra(params char[] chars)
         {
             var text = new string(chars);
-            var normalized = SoraniNormalization.Normalize(text);
+            var normalized = Sorani.ToStandardSorani(text);
 
-            Assert.True(normalized.Contains(Ae));
-            Assert.False(normalized.Contains(Heh));
-            Assert.False(normalized.Contains(ZeroWidthNonJoiner));
+            Assert.True(normalized.Contains(SoraniReh));
+            Assert.False(normalized.Contains(SoraniHeavyReh));
         }
 
         [Theory]
-        [InlineData(Hamza, Alef, Seen, Noon)]                       // ئاسان
-        [InlineData(Hamza, Ae, Noon, Jeem, Ae, Meem)]               // ئەنجام
-        public void Normalize_Hamza_With_Vowels(params char[] chars)
+        [InlineData(SoraniLam, ArabicFatha)]                                                // لَ => ڵ
+        [InlineData(SoraniBeh, SoraniAe, SoraniLam, ArabicFatha, SoraniAlef, SoraniMeem)]   // بەلَام => بەڵام
+        public void Should_Replace_Lam_Followed_By_Fatha_With_HeavyLam(params char[] chars)
         {
             var text = new string(chars);
-            var normalized = SoraniNormalization.Normalize(text);
+            var normalized = Sorani.ToStandardSorani(text);
 
-            Assert.True(normalized.Contains(Hamza));
-            Assert.False(normalized.Contains(YehWithSmallV));
+            Assert.True(normalized.Contains(SoraniHeavyLam));
+            Assert.False(normalized.Contains(ArabicFatha));
+            Assert.False(normalized.Contains(SoraniLam));
         }
 
         [Theory]
-        [InlineData(Beh, Hamza)]                                // بئ => بێ
-        [InlineData(Beh, Hamza, Gaf, Waw, Meem, Alef, Noon)]    // بئگومان => بێگومان
-        public void Normalize_Hamza_With_Consonants(params char[] chars)
+        [InlineData(SoraniLam, SoraniAlef, SoraniReh)]                        // لار
+        public void Should_Not_Replace_Lam_Not_Followed_By_Fatha(params char[] chars)
         {
             var text = new string(chars);
-            var normalized = SoraniNormalization.Normalize(text);
+            var normalized = Sorani.ToStandardSorani(text);
 
-            Assert.True(normalized.Contains(YehWithSmallV));
-            Assert.False(normalized.Contains(Hamza));
+            Assert.True(normalized.Contains(SoraniLam));
+            Assert.False(normalized.Contains(SoraniHeavyLam));
+        }
+
+        [Theory]
+        [InlineData(SoraniHamza, SoraniAlef, SoraniSeen, SoraniNoon)]                       // ئاسان
+        [InlineData(SoraniHamza, SoraniAe, SoraniNoon, SoraniJeem, SoraniAe, SoraniMeem)]   // ئەنجام
+        public void Should_Not_Replace_Hamza_Followed_By_Vowels(params char[] chars)
+        {
+            var text = new string(chars);
+            var normalized = Sorani.ToStandardSorani(text);
+
+            Assert.True(normalized.Contains(SoraniHamza));
+            Assert.False(normalized.Contains(SoraniOpenYeh));
+        }
+
+        [Theory]
+        [InlineData(SoraniBeh, SoraniHamza)]                                                              // بئ => بێ
+        [InlineData(SoraniBeh, SoraniHamza, SoraniGaf, SoraniWaw, SoraniMeem, SoraniAlef, SoraniNoon)]    // بئگومان => بێگومان
+        public void Should_Replace_Hamza_Followed_By_Consonants_With_OpenYeh(params char[] chars)
+        {
+            var text = new string(chars);
+            var normalized = Sorani.ToStandardSorani(text);
+
+            Assert.True(normalized.Contains(SoraniOpenYeh));
+            Assert.False(normalized.Contains(SoraniHamza));
         }
 
         [Fact] // ئئستا => ئێستا     
-        public void Normalize_Hamza_With_Consonants_AtTheBeggining()
+        public void Should_Replace_Second_Hamza_But_Not_First_Hamza()
         {
-            var text = $"{Hamza}{Hamza}{Seen}{Teh}{Alef}"; // ئێستا
+            var text = $"{SoraniHamza}{SoraniHamza}{SoraniSeen}{SoraniTeh}{SoraniAlef}"; // ئێستا
 
-            var normalized = SoraniNormalization.Normalize(text);
+            var normalized = Sorani.ToStandardSorani(text);
 
-            Assert.True(normalized[0] == Hamza);
-            Assert.True(normalized[1] == YehWithSmallV);
+            Assert.Equal(SoraniHamza, normalized[0]);
+            Assert.Equal(SoraniOpenYeh, normalized[1]);
         }
 
         [Theory]
@@ -183,7 +217,7 @@ namespace DevTree.BeKurdi.Tests
             var random = new Random();
 
             var space = includeSpace ? new char[] { Space } : new char[] { };
-            var ignoredChars = new char[] { ArabicLetterSad, ArabicKasra, ArabicFatha, ZeroWidthNonJoiner };
+            var ignoredChars = new char[] { ArabicSad, ArabicKasra, ArabicFatha, ZeroWidthNonJoiner };
             var troublesomeChars = NonStandardSoraniAlphabet.Except(ignoredChars);
             var charSet = troublesomeChars.Union(SoraniAlphabet)
                                           .Union(space)
@@ -193,7 +227,7 @@ namespace DevTree.BeKurdi.Tests
                                             .Select(set => set[random.Next(charSet.Length)]).ToArray());
 
             timer.Start();
-            var normalized = SoraniNormalization.Normalize(text);
+            var normalized = Sorani.ToStandardSorani(text);
             timer.Stop();
 
             Assert.True(timer.ElapsedMilliseconds < 1000);
@@ -201,13 +235,25 @@ namespace DevTree.BeKurdi.Tests
         }
 
         [Fact]  // ازاد => ئازاد
-        public void Normalize_Aelf_At_The_Begenning_Of_A_Word()
+        public void Should_Insert_Hamza_To_The_Begenning_Of_The_Words_That_Start_With_Aelf()
         {
-            var text = $"{Alef}{Zain}{Alef}{Dal}";  // ازاد
-            var normalized = SoraniNormalization.Normalize(text);
+            var text = $"{SoraniAlef}{SoraniZeh}{SoraniAlef}{SoraniDal}";  // ازاد
+            var normalized = Sorani.ToStandardSorani(text);
 
-            Assert.True(normalized[0] == Hamza);
-            Assert.True(normalized[1] == Alef);
+            Assert.Equal(SoraniHamza, normalized[0]);
+            Assert.Equal(SoraniAlef, normalized[1]);
+        }
+
+        [Fact]
+        public void Normalize_A_Sentence()
+        {
+            var text = "ثيَش هةوليَر ضووم بؤ سليَماني. لةويَ ضووم بؤ بازارِ. زؤر شتي جوانم كرِي.";
+
+            var expected = "پێش هەولێر چووم بۆ سلێمانی. لەوێ چووم بۆ بازاڕ. زۆر شتی جوانم کڕی.";
+
+            var normalized = Sorani.ToStandardSorani(text);
+
+            Assert.Equal(expected, normalized);
         }
     }
 }
