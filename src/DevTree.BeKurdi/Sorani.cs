@@ -6,11 +6,16 @@ using static DevTree.BeKurdi.Unicode;
 
 namespace DevTree.BeKurdi
 {
-    public static class SoraniNormalization
+    public static class Sorani
     {
         private const int MaxWordLength = 50;
 
-        public static string Normalize(this string text)
+        /// <summary>
+        /// Normalizes text to use only standard Sorani unicode characters.
+        /// </summary>
+        /// <param name="text">The text to normalize</param>
+        /// <returns></returns>
+        public static string ToStandardSorani(this string text)
         {
             if (text is null) throw new ArgumentNullException(nameof(text));
             if (text.Length == 0) return text;
@@ -18,32 +23,32 @@ namespace DevTree.BeKurdi
             var builder = new StringBuilder(text);
 
             // Simple replacements
-            builder.Replace(ArabicLetterTah, Gaf)                   // ط => گ
-                   .Replace(ArabicLetterKaf, Kaf)                   // ك => ک
-                   .Replace(ArabicLetterDad, Tcheh)                 // ض => چ
-                   .Replace(ArabicLetterZah, Veh)                   // ظ => ڤ
-                   .Replace(ArabicLetterTheh, Peh)                  // ث => پ
-                   .Replace(ArabicLetterThal, Jeh)                  // ذ => ژ
-                   .Replace(ArabicLetterWawWithHamzaAbove, Oe)      // ؤ => ۆ
-                   .Replace(ArabicLetterHehDoachashmee, Heh)        // ھ => ه
-                   .Replace(ArabicLetterAlefWithHamzaAbove, Alef)   // أ => ا
-                   .Replace(ArabicLetterAlefWithMaddaAbove, Alef)   // آ => ا
-                   .Replace(ArabicLetterTehMarbuta, Ae)             // ة => ە
-                   .Replace(ArabicLetterYeh, Yeh)                   // ي => ی
-                   .Replace(ArabicLetterAlefMaksura, Yeh);          // ى => ی
+            builder.Replace(ArabicTah, SoraniGaf)                   // ط => گ
+                   .Replace(ArabicKaf, SoraniKaf)                   // ك => ک
+                   .Replace(ArabicDad, SoraniCheem)                 // ض => چ
+                   .Replace(ArabicLZah, SoraniVeh)                   // ظ => ڤ
+                   .Replace(ArabicTheh, SoraniPeh)                  // ث => پ
+                   .Replace(ArabicThal, SoraniJeh)                  // ذ => ژ
+                   .Replace(ArabicWawWithHamzaAbove, SoraniOe)      // ؤ => ۆ
+                   .Replace(ArabicHehDoachashmee, SoraniHeh)        // ھ => ه
+                   .Replace(ArabicAlefWithHamzaAbove, SoraniAlef)   // أ => ا
+                   .Replace(ArabicAlefWithMaddaAbove, SoraniAlef)   // آ => ا
+                   .Replace(ArabicTehMarbuta, SoraniAe)             // ة => ە
+                   .Replace(ArabicYeh, SoraniYeh)                   // ي => ی
+                   .Replace(ArabicAlefMaksura, SoraniYeh);          // ى => ی
 
             // Two-character replacements
-            builder.Replace($"{Waw}{ArabicFatha}", $"{Oe}");
+            builder.Replace($"{SoraniWaw}{ArabicFatha}", $"{SoraniOe}");
 
             // We don't need to account for other types of Yeh, because the are already
             // normalized in the previous step.
-            builder.Replace($"{Yeh}{ArabicFatha}", $"{YehWithSmallV}");
+            builder.Replace($"{SoraniYeh}{ArabicFatha}", $"{SoraniOpenYeh}");
 
-            builder.Replace($"{Heh}{ZeroWidthNonJoiner}", $"{Ae}");
+            builder.Replace($"{SoraniHeh}{ZeroWidthNonJoiner}", $"{SoraniAe}");
 
-            builder.Replace($"{Reh}{ArabicKasra}", $"{RehWithSmallV}");
+            builder.Replace($"{SoraniReh}{ArabicKasra}", $"{SoraniHeavyReh}");
 
-            builder.Replace($"{Lam}{ArabicFatha}", $"{LamWithSmallV}");
+            builder.Replace($"{SoraniLam}{ArabicFatha}", $"{SoraniHeavyLam}");
 
             // Replacements based on rules
             int startOfWord = 0;
@@ -78,13 +83,13 @@ namespace DevTree.BeKurdi
                 {
                     switch (builder[i])
                     {
-                        case Hamza:
+                        case SoraniHamza:
                             endOfWord += NormalizeHamza(builder, startOfWord, endOfWord);
                             break;
-                        case Alef:
+                        case SoraniAlef:
                             endOfWord += NormalizeInitialAlef(builder, startOfWord, endOfWord);
                             break;
-                        case Reh:
+                        case SoraniReh:
                             endOfWord += NormalizeInitialReh(builder, startOfWord, endOfWord);
                             break;
                     }
@@ -101,7 +106,7 @@ namespace DevTree.BeKurdi
         {
             for (int i = startIndex; i < limit; i++)
             {
-                if (builder[i] != Hamza)
+                if (builder[i] != SoraniHamza)
                     continue;
 
                 // A valid hamza has the following properties:
@@ -113,7 +118,7 @@ namespace DevTree.BeKurdi
                 // it's acutally meant to be a YehWithSmallV
                 if (i != startIndex && (i + 1 == limit || !AllSoraniAlphabetVowls.Contains(builder[i + 1])))
                 {
-                    builder[i] = YehWithSmallV;
+                    builder[i] = SoraniOpenYeh;
                     continue;
                 }
             }
@@ -123,20 +128,20 @@ namespace DevTree.BeKurdi
 
         private static int NormalizeInitialAlef(StringBuilder builder, int startIndex, int limit)
         {
-            if (limit - startIndex <= 1 || builder[0] != Alef)
+            if (limit - startIndex <= 1 || builder[0] != SoraniAlef)
                 return 0;
 
             // In Sorani alphabet words can't start with vowels, so if an alef was at the begining
             // of a word, place a hamza in front of it.
-            builder.Insert(0, Hamza);
+            builder.Insert(0, SoraniHamza);
             return 1;
         }
 
         private static int NormalizeInitialReh(StringBuilder builder, int startIndex, int limit)
         {
             // Words never start with Reh, if a word started with one, replace it with RehWithSmallV
-            if (builder[startIndex] == Reh)
-                builder[startIndex] = RehWithSmallV;
+            if (builder[startIndex] == SoraniReh)
+                builder[startIndex] = SoraniHeavyReh;
 
             return 0;
         }

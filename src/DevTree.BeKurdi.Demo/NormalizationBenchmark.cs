@@ -35,13 +35,13 @@ namespace DevTree.BeKurdi.Demo
         [Benchmark]
         public string Normalize10M()
         {
-            return SoraniNormalization.Normalize(Text10M);
+            return Sorani.Normalize(Text10M);
         }
 
         [Benchmark]
         public string Normalize1M()
         {
-            return SoraniNormalization.Normalize(Text1M);
+            return Sorani.Normalize(Text1M);
         }
 
         public string RegexReplace()
