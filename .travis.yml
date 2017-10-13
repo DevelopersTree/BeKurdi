@@ -14,6 +14,7 @@ script:
  
 deploy:
  skip_cleanup: true
+ provider: script
  script:
   - dotnet nuget push ./src/DevTree.BeKurdi/bin/Release/*.nupkg -s ${NUGET_SOURCE} -k ${NUGET_API_KEY}
  on:
