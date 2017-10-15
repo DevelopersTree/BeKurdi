@@ -26,7 +26,7 @@ namespace DevTree.BeKurdi
             builder.Replace(ArabicTah, SoraniGaf)                   // ط => گ
                    .Replace(ArabicKaf, SoraniKaf)                   // ك => ک
                    .Replace(ArabicDad, SoraniCheem)                 // ض => چ
-                   .Replace(ArabicLZah, SoraniVeh)                   // ظ => ڤ
+                   .Replace(ArabicLZah, SoraniVeh)                  // ظ => ڤ
                    .Replace(ArabicTheh, SoraniPeh)                  // ث => پ
                    .Replace(ArabicThal, SoraniJeh)                  // ذ => ژ
                    .Replace(ArabicWawWithHamzaAbove, SoraniOe)      // ؤ => ۆ
@@ -35,7 +35,10 @@ namespace DevTree.BeKurdi
                    .Replace(ArabicAlefWithMaddaAbove, SoraniAlef)   // آ => ا
                    .Replace(ArabicTehMarbuta, SoraniAe)             // ة => ە
                    .Replace(ArabicYeh, SoraniYeh)                   // ي => ی
-                   .Replace(ArabicAlefMaksura, SoraniYeh);          // ى => ی
+                   .Replace(ArabicAlefMaksura, SoraniYeh)           // ى => ی
+                   .Replace(LatinComma, SoraniComma)                // ? => ؟
+                   .Replace(LatinSemicolon, SoraniSemicolon)        // , => ،
+                   .Replace(LatinQuestionMark, SoraniQuestionMark); // ; => ;
 
             // Two-character replacements
             builder.Replace($"{SoraniWaw}{ArabicFatha}", $"{SoraniOe}");
@@ -66,7 +69,7 @@ namespace DevTree.BeKurdi
                         case Space:
                         case FullStop:
                         case SoraniSemicolon:
-                        case Semicolon:
+                        case LatinSemicolon:
                         case SoraniQuestionMark:
                         case LatinQuestionMark:
                             reachedEndOfWord = true;

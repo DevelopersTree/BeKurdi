@@ -60,6 +60,9 @@ namespace DevTree.BeKurdi.Tests
         [InlineData(ArabicYeh, SoraniYeh)]                              // ي => ی
         [InlineData(ArabicAlefWithHamzaAbove, SoraniAlef)]              // أ => ا
         [InlineData(ArabicAlefWithMaddaAbove, SoraniAlef)]              // آ => ا
+        [InlineData(LatinComma, SoraniComma)]                           // ? => ؟
+        [InlineData(LatinQuestionMark, SoraniQuestionMark)]             // , => ،
+        [InlineData(LatinSemicolon, SoraniSemicolon)]                   // ; => ;
         public void Should_Replace_Non_Standard_Char(char find, char replace)
         {
             var text = find.ToString();

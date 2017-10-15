@@ -456,12 +456,6 @@ namespace DevTree.BeKurdi
         public const char BackSlash = '\u005C';
 
         /// <summary>
-        /// <para>Common symbol: <code>,</code> - <code>U+002C</code> </para>
-        /// <para>Unicode Name: COMMA </para>
-        /// </summary>
-        public const char Comma = '\u002C';
-
-        /// <summary>
         /// <para>Common symbol: <code>-</code> - <code>U+002D</code> </para>
         /// <para>Unicode Name: HYPHEN-MINUS </para>
         /// </summary>
@@ -580,12 +574,6 @@ namespace DevTree.BeKurdi
         /// <para>Unicode Name: EQUALS SIGN </para>
         /// </summary>
         public const char EqualsSign = '\u003D';
-
-        /// <summary>
-        /// <para>Common Symbols: <code>;</code> - <code>U+003B</code> </para>
-        /// <para>Unicode Name: SEMICOLON </para>
-        /// </summary>
-        public const char Semicolon = '\u003B';
 
         /// <summary>
         /// <para>Common Symbols: <code><</code> - <code>U+003C</code> </para>
@@ -716,6 +704,18 @@ namespace DevTree.BeKurdi
         /// <para>Unicode Name: QUESTION MARK </para>
         /// </summary>
         public const char LatinQuestionMark = '\u003F';
+
+        /// <summary>
+        /// <para>Latin Punctuation: <code>,</code> - <code>U+002C</code> </para>
+        /// <para>Unicode Name: COMMA </para>
+        /// </summary>
+        public const char LatinComma = '\u002C';
+
+        /// <summary>
+        /// <para>Latin Punctuation: <code>;</code> - <code>U+003B</code> </para>
+        /// <para>Unicode Name: SEMICOLON </para>
+        /// </summary>
+        public const char LatinSemicolon = '\u003B';
         #endregion
 
         #endregion // Characters
@@ -755,7 +755,7 @@ namespace DevTree.BeKurdi
         public static IReadOnlyList<char> SoraniPunctuation => new List<char>
         {
             FullStop, Colon, SoraniComma, SoraniDash, RightParenthesis, LeftParenthesis, SoraniRightQuotationMark,
-            SoraniLeftQuotationMark, ExclamationMark, SoraniQuestionMark, SoraniSemicolon, Slash, BackSlash, Comma, Hyphen, Space
+            SoraniLeftQuotationMark, ExclamationMark, SoraniQuestionMark, SoraniSemicolon, Slash, BackSlash, LatinComma, Hyphen, Space
         };
 
         /// <summary>
@@ -765,7 +765,7 @@ namespace DevTree.BeKurdi
         {
             CircumflexAccent, PercentSign, DollarSign, NumberSign, CommercialAt, Ampersand, Asterisk, RightParenthesis,
             LeftParenthesis, LowLine, PlusSign, RightSquareBracket, LeftSquareBracket, RightCurlyBracket, LeftCurlyBracket,
-            LeftSingleQuotationMark, RightSingleQuotationMark, Tilde, VerticalLine, EqualsSign, Comma, Semicolon,
+            LeftSingleQuotationMark, RightSingleQuotationMark, Tilde, VerticalLine, EqualsSign, LatinComma, LatinSemicolon,
             GreaterThanSign, LessThanSign, SectionSign, Diaeresis, CopyrightSign, RegisteredSign, DegreeSign, MiddleDot, AcuteAccent
         };
 
