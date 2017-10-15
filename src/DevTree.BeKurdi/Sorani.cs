@@ -38,7 +38,17 @@ namespace DevTree.BeKurdi
                    .Replace(ArabicAlefMaksura, SoraniYeh)           // ى => ی
                    .Replace(LatinComma, SoraniComma)                // ? => ؟
                    .Replace(LatinSemicolon, SoraniSemicolon)        // , => ،
-                   .Replace(LatinQuestionMark, SoraniQuestionMark); // ; => ;
+                   .Replace(LatinQuestionMark, SoraniQuestionMark)  // ; => ;
+                   .Replace(LatinZero, SoraniZero)                  // 0 => ٠
+                   .Replace(LatinOne, SoraniOne)                    // 1 => ١
+                   .Replace(LatinTwo, SoraniTwo)                    // 2 => ٢
+                   .Replace(LatinThree, SoraniThree)                // 3 => ٣
+                   .Replace(LatinFour, SoraniFour)                  // 4 => ٤
+                   .Replace(LatinFive, SoraniFive)                  // 5 => ٥
+                   .Replace(LatinSix, SoraniSix)                    // 6 => ٦
+                   .Replace(LatinSeven, SoraniSeven)                // 7 => ٧
+                   .Replace(LatinEight, SoraniEight)                // 8 => ٨
+                   .Replace(LatinNine, SoraniNine);                 // 9 => ٩
 
             // Two-character replacements
             builder.Replace($"{SoraniWaw}{ArabicFatha}", $"{SoraniOe}");

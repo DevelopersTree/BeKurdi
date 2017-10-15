@@ -63,6 +63,16 @@ namespace DevTree.BeKurdi.Tests
         [InlineData(LatinComma, SoraniComma)]                           // ? => ؟
         [InlineData(LatinQuestionMark, SoraniQuestionMark)]             // , => ،
         [InlineData(LatinSemicolon, SoraniSemicolon)]                   // ; => ;
+        [InlineData(LatinZero, SoraniZero)]                             // 0 => ٠
+        [InlineData(LatinOne, SoraniOne)]                               // 1 => ١
+        [InlineData(LatinTwo, SoraniTwo)]                               // 2 => ٢
+        [InlineData(LatinThree, SoraniThree)]                           // 3 => ٣
+        [InlineData(LatinFour, SoraniFour)]                             // 4 => ٤
+        [InlineData(LatinFive, SoraniFive)]                             // 5 => ٥
+        [InlineData(LatinSix, SoraniSix)]                               // 6 => ٦
+        [InlineData(LatinSeven, SoraniSeven)]                           // 7 => ٧
+        [InlineData(LatinEight, SoraniEight)]                           // 8 => ٨
+        [InlineData(LatinNine, SoraniNine)]                             // 9 => ٩
         public void Should_Replace_Non_Standard_Char(char find, char replace)
         {
             var text = find.ToString();
