@@ -234,16 +234,6 @@ namespace DevTree.BeKurdi.Tests
             Assert.False(normalized.Any(c => troublesomeChars.Contains(c)));
         }
 
-        [Fact]  // ازاد => ئازاد
-        public void Should_Insert_Hamza_To_The_Begenning_Of_The_Words_That_Start_With_Aelf()
-        {
-            var text = $"{SoraniAlef}{SoraniZeh}{SoraniAlef}{SoraniDal}";  // ازاد
-            var normalized = Sorani.ToStandardSorani(text);
-
-            Assert.Equal(SoraniHamza, normalized[0]);
-            Assert.Equal(SoraniAlef, normalized[1]);
-        }
-
         [Fact]
         public void Normalize_A_Sentence()
         {

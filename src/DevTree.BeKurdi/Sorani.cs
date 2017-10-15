@@ -86,9 +86,6 @@ namespace DevTree.BeKurdi
                         case SoraniHamza:
                             endOfWord += NormalizeHamza(builder, startOfWord, endOfWord);
                             break;
-                        case SoraniAlef:
-                            endOfWord += NormalizeInitialAlef(builder, startOfWord, endOfWord);
-                            break;
                         case SoraniReh:
                             endOfWord += NormalizeInitialReh(builder, startOfWord, endOfWord);
                             break;
@@ -124,17 +121,6 @@ namespace DevTree.BeKurdi
             }
 
             return 0;
-        }
-
-        private static int NormalizeInitialAlef(StringBuilder builder, int startIndex, int limit)
-        {
-            if (limit - startIndex <= 1 || builder[0] != SoraniAlef)
-                return 0;
-
-            // In Sorani alphabet words can't start with vowels, so if an alef was at the begining
-            // of a word, place a hamza in front of it.
-            builder.Insert(0, SoraniHamza);
-            return 1;
         }
 
         private static int NormalizeInitialReh(StringBuilder builder, int startIndex, int limit)
